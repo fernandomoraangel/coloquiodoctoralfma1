@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>El Capital del Prestigio - Resumen Tabla</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:wght@400&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2D3748;
+            --secondary-color: #4A5568;
+            --accent-color: #D69E2E;
+            --text-primary: #1A202C;
+            --text-secondary: #4A5568;
+            --bg-primary: #FEFEFE;
+            --bg-secondary: #F7FAFC;
+            --border-color: #E2E8F0;
+        }
+
+        body {
+            font-family: 'IBM Plex Sans', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        .serif-display {
+            font-family: 'DM Serif Display', serif;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem 0;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .header h1 {
+            font-size: 3.5rem;
+            font-weight: 400;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+            line-height: 1.2;
+        }
+
+        .header .subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            font-weight: 300;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .table-container {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+            margin-bottom: 3rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .table-header {
+            background: var(--primary-color);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .table-header h2 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .table-header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .summary-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .summary-table th {
+            background: var(--secondary-color);
+            color: white;
+            padding: 1.5rem 1rem;
+            text-align: left;
+            font-weight: 500;
+            font-size: 1.1rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .summary-table td {
+            padding: 1.5rem 1rem;
+            border-bottom: 1px solid var(--border-color);
+            vertical-align: top;
+            transition: background-color 0.2s ease;
+        }
+
+        .summary-table tbody tr:hover {
+            background: rgba(45, 55, 72, 0.02);
+        }
+
+        .summary-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .section-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .section-content {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+
+        .key-points {
+            list-style: none;
+            padding: 0;
+            margin: 0.5rem 0;
+        }
+
+        .key-points li {
+            padding: 0.25rem 0;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .key-points li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--accent-color);
+            font-weight: bold;
+        }
+
+        .highlight-box {
+            background: rgba(214, 158, 46, 0.1);
+            border-left: 4px solid var(--accent-color);
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .highlight-box strong {
+            color: var(--accent-color);
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .metric-card {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            text-align: center;
+        }
+
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--accent-color);
+            display: block;
+        }
+
+        .metric-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-top: 0.25rem;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .summary-table th,
+            .summary-table td {
+                padding: 1rem 0.5rem;
+                font-size: 0.9rem;
+            }
+            
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.8s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container fade-in">
+        <div class="header">
+            <h1 class="serif-display">El Capital del Prestigio</h1>
+            <p class="subtitle">Un Análisis de los Ecosistemas de Financiación en el Circuito Global de Festivales y Arte de Nuevos Medios</p>
+        </div>
+
+        <div class="table-container">
+            <div class="table-header">
+                <h2>Resumen Ejecutivo</h2>
+                <p>Estructura de financiación y conversión de capital en festivales de arte de élite</p>
+            </div>
+            
+            <table class="summary-table">
+                <thead>
+                    <tr>
+                        <th>Componente</th>
+                        <th>Descripción</th>
+                        <th>Ejemplos / Métricas</th>
+                        <th>Impacto Estratégico</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="section-title">Modelo de Legado</div>
+                            <div class="section-content">Ecosistema de financiación cultural basado en estructuras establecidas</div>
+                        </td>
+                        <td>
+                            <div class="section-content">La Fondazione La Biennale di Venezia representa el arquetipo de ecosistema de financiación cultural de legado, basado en financiación pública estatal que atrae patrocinio corporativo de lujo.</div>
+                            <div class="highlight-box">
+                                <strong>Estrategia dual:</strong> Financiación operativa anual vs inversión en capital e infraestructura a largo plazo
+                            </div>
+                        </td>
+                        <td>
+                            <div class="metrics-grid">
+                                <div class="metric-card">
+                                    <span class="metric-value">€1.2M</span>
+                                    <div class="metric-label">Créditos públicos 2023</div>
+                                </div>
+                                <div class="metric-card">
+                                    <span class="metric-value">€169M</span>
+                                    <div class="metric-label">Inversión PNRR</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <ul class="key-points">
+                                <li>Garantiza viabilidad a largo plazo</li>
+                                <li>De-riesga participación privada</li>
+                                <li>Atrae capital de lujo</li>
+                                <li>Consolida prestigio institucional</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        <td>
+                            <div class="section-title">Financiación Pública</div>
+                            <div class="section-content">Inversión estatal como palanca para capital privado</div>
+                        </td>
+                        <td>
+                            <div class="section-content">Financiación dual: operativa ordinaria vs inversión estratégica en infraestructura. La inversión pública actúa como imán para capital privado de lujo.</div>
+                            <div class="highlight-box">
+                                <strong>Componentes:</strong> FUS (Fondo Unico del Spettacolo) para operaciones + PNRR para infraestructura
+                            </div>
+                        </td>
+                        <td>
+                            <div class="section-content">
+                                <strong>FUS 2023:</strong><br>
+                                • Danza: €127,376<br>
+                                • Música: €301,302<br>
+                                • Teatro: €358,489<br>
+                                • Región Véneto: €460,000
+                            </div>
+                        </td>
+                        <td>
+                            <ul class="key-points">
+                                <li>Estabiliza operaciones anuales</li>
+                                <li>Moderniza activos culturales</li>
+                                <li>Reduce riesgo para patrocinadores</li>
+                                <li>Fortalece posición de marca</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        <td>
+                            <div class="section-title">Patrocinio Corporativo</div>
+                            <div class="section-content">Colaboraciones flexibles y a medida con marcas de lujo</div>
+                        </td>
+                        <td>
+                            <div class="section-content">Estrategia que evita paquetes estandarizados, buscando colaboraciones flexibles que se alineen con objetivos de inversión de patrocinadores, ofreciendo retorno en visibilidad y posición de mercado.</div>
+                            <div class="highlight-box">
+                                <strong>Modelo desagregado:</strong> Múltiples marcas coexisten "poseyendo" diferentes facetas del festival
+                            </div>
+                        </td>
+                        <td>
+                            <div class="section-content">
+                                <strong>Casos principales:</strong><br>
+                                • <strong>Lexus:</strong> Coche oficial (logística)<br>
+                                • <strong>Cartier:</strong> Premio principal (contenido)<br>
+                                • <strong>Armani Beauty:</strong> Belleza oficial (público)
+                            </div>
+                        </td>
+                        <td>
+                            <ul class="key-points">
+                                <li>Crea sinergia logística-glamour</li>
+                                <li>Diversifica fuentes de ingreso</li>
+                                <li>Fortalece narrativa de marca</li>
+                                <li>Genera experiencias VIP</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        <td>
+                            <div class="section-title">Conversión de Capital</div>
+                            <div class="section-content">Transformación de capital simbólico en financiero y viceversa</div>
+                        </td>
+                        <td>
+                            <div class="section-content">El capital simbólico (prestigio de premios como el León de Oro) se utiliza para atraer capital financiero (patrocinios), que se reinvierte para generar nuevo capital artístico (financiación de obras emergentes).</div>
+                            <div class="highlight-box">
+                                <strong>Ciclo virtuoso:</strong> Prestigio → Financiación → Nuevas obras → Más prestigio
+                            </div>
+                        </td>
+                        <td>
+                            <div class="section-content">
+                                <strong>Ejemplos de conversión:</strong><br>
+                                • Premios como imán para patrocinios<br>
+                                • Programas como Biennale College<br>
+                                • Residencias para artistas emergentes<br>
+                                • Exhibiciones como plataforma de lanzamiento
+                            </div>
+                        </td>
+                        <td>
+                            <ul class="key-points">
+                                <li>Renueva constantemente el ecosistema</li>
+                                <li>Atrae nuevo talento</li>
+                                <li>Incrementa valor simbólico</li>
+                                <li>Crea sostenibilidad del sistema</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        <td>
+                            <div class="section-title">Ecosistema de Apoyo</div>
+                            <div class="section-content">Red interconectada de flujos de capital</div>
+                        </td>
+                        <td>
+                            <div class="section-content">Los festivales de élite operan como mercados multifacéticos donde convergen diversas formas de capital que se intercambian y transforman, creando un ecosistema dinámico de apoyo mutuo.</div>
+                            <div class="highlight-box">
+                                <strong>Características:</strong> Red interconectada, flujos dinámicos, transformación continua
+                            </div>
+                        </td>
+                        <td>
+                            <div class="section-content">
+                                <strong>Componentes del ecosistema:</strong><br>
+                                • Financiación pública estatal<br>
+                                • Patrocinio corporativo de lujo<br>
+                                • Premios y reconocimientos<br>
+                                • Programas de desarrollo<br>
+                                • Infraestructura cultural
+                            </div>
+                        </td>
+                        <td>
+                            <ul class="key-points">
+                                <li>Crea resiliencia del sistema</li>
+                                <li>Facilita innovación</li>
+                                <li>Establece estándares de calidad</li>
+                                <li>Genera valor compartido</li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="footer">
+            <p>Análisis basado en datos de La Biennale di Venezia 2023 | Investigación sobre ecosistemas de financiación cultural</p>
+        </div>
+    </div>
+
+    <script>
+        // Añadir interactividad suave
+        document.addEventListener('DOMContentLoaded', function() {
+            const rows = document.querySelectorAll('.summary-table tbody tr');
+            
+            rows.forEach(row => {
+                row.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateX(4px)';
+                    this.style.transition = 'transform 0.2s ease';
+                });
+                
+                row.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateX(0)';
+                });
+            });
+        });
+    </script>
+</body>
+</html>

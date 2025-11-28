@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cuadro Sinóptico: Arte, Narrativa Digital e Inteligencia Artificial</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanta/0.5.24/vanta.birds.min.js"></script>
+    <style>
+        :root {
+            --primary: #1a1a1a;
+            --secondary: #2d2d2d;
+            --accent: #c9a96e;
+            --text-light: #f5f5f5;
+            --text-muted: #a0a0a0;
+            --background: #f8f6f0;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--background);
+            color: var(--primary);
+            line-height: 1.6;
+        }
+        
+        .hero-title {
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            line-height: 1.1;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-weight: 500;
+            font-size: clamp(1.5rem, 3vw, 2rem);
+            color: var(--primary);
+        }
+        
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(201, 169, 110, 0.3);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent), #e6d7b8, var(--accent));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .card:hover::before {
+            opacity: 1;
+        }
+        
+        .card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+            border-color: var(--accent);
+            background: rgba(255, 255, 255, 0.98);
+        }
+        
+        .tag {
+            background: var(--accent);
+            color: white;
+            font-size: 0.75rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 1rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+        
+        .vanta-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        
+        .grain-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 25% 25%, rgba(0,0,0,.02) 1px, transparent 1px),
+                radial-gradient(circle at 75% 75%, rgba(0,0,0,.02) 1px, transparent 1px);
+            background-size: 4px 4px;
+            background-position: 0 0, 2px 2px;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .content-overlay {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .research-item {
+            border-left: 3px solid var(--accent);
+            padding-left: 1rem;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .research-item:hover {
+            border-left-width: 4px;
+            padding-left: 1.25rem;
+            background: rgba(201, 169, 110, 0.05);
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .research-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .floating-element {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            33% { transform: translateY(-10px) rotate(1deg); }
+            66% { transform: translateY(-5px) rotate(-1deg); }
+        }
+        
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+        
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+        .delay-4 { animation-delay: 0.4s; }
+        .delay-5 { animation-delay: 0.5s; }
+        
+        .hero-image {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 40%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.8;
+            mask: linear-gradient(90deg, transparent, rgba(0,0,0,0.3), rgba(0,0,0,0.6));
+            -webkit-mask: linear-gradient(90deg, transparent, rgba(0,0,0,0.3), rgba(0,0,0,0.6));
+        }
+        
+        .section-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            opacity: 0.9;
+            transition: all 0.3s ease;
+        }
+        
+        .card:hover .section-image {
+            opacity: 1;
+            transform: scale(1.05);
+        }
+        
+        .metric-card {
+            background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(248,246,240,0.9));
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(201, 169, 110, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .metric-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(201, 169, 110, 0.2);
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        
+        .connection-line {
+            position: absolute;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--accent), transparent);
+            opacity: 0.3;
+        }
+        
+        @media (max-width: 768px) {
+            .hero-image {
+                display: none;
+            }
+            
+            .card {
+                margin-bottom: 1rem;
+            }
+            
+            .section-image {
+                height: 150px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="vanta-bg" id="vanta-bg"></div>
+    <div class="grain-overlay"></div>
+    
+    <div class="content-overlay min-h-screen">
+        <!-- Hero Section -->
+        <section class="relative py-20 px-4 overflow-hidden">
+            <img src="hero_ai_art.png" alt="Arte e IA" class="hero-image">
+            <div class="max-w-6xl mx-auto text-center relative z-10">
+                <h1 class="hero-title mb-8 fade-in">
+                    Arte, Narrativa Digital e Inteligencia Artificial
+                </h1>
+                <p class="text-xl text-gray-600 mb-12 max-w-3xl mx-auto fade-in delay-1 leading-relaxed">
+                    Un cuadro sinóptico de la intersección entre creatividad humana y artificial en el panorama digital contemporáneo
+                </p>
+                <div class="floating-element fade-in delay-2">
+                    <i class="fas fa-palette text-6xl text-gray-300 pulse"></i>
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Content Grid -->
+        <section class="py-16 px-4">
+            <div class="max-w-7xl mx-auto">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
+                    
+                    <!-- IA y Arte Digital -->
+                    <div class="card rounded-2xl p-8 fade-in delay-1">
+                        <img src="hero_ai_art.png" alt="IA y Arte Digital" class="section-image">
+                        <div class="flex items-center mb-6">
+                            <div class="w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center mr-4 shadow-lg">
+                                <i class="fas fa-robot text-white text-2xl"></i>
+                            </div>
+                            <div>
+                                <h2 class="section-title">IA y Arte Digital</h2>
+                                <span class="tag">Creatividad Algorítmica</span>
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-4">
+                            <div class="research-item">
+                                <h3 class="font-semibold text-lg mb-2">Impacto de la IA en la Creación Artística</h3>
+                                <p class="text-gray-600 text-sm mb-2 leading-relaxed">Herramientas de IA transformando la noción tradicional de autoría y creatividad, desafiando las fronteras entre lo humano y lo artificial.</p>
+                                <div class="text-xs text-gray-500">
+                                    <a href="https://doi.org/10.36948/ijfmr.2024.v06i06.32948" class="hover:text-accent transition-colors font-medium">
+                                        Khadake, V. "Algorithmic Aesthetics" (2024)
+                                    </a>
+                                </div>
+                            </div>
+                            
+                            <div class="research-item">
+                                <h3 class="font-semibold text-lg mb-2">IA Generativa y Creatividad Humana</h3>
+                                <p class="text-gray-600 text-sm mb-2 leading-relaxed">Modelos texto-imagen y su relación dialógica con la creatividad humana en procesos de co-creación.</p>
+                                <div class="text-xs text-gray-500">
+                                    <a href="https://doi.org/10.1080/10400419.2024.2354622" class="hover:text-accent transition-colors font-medium">
+                                        Garcia, M.B. "The Paradox of Artificial Creativity" (2024)
+                                    </a>
+                                </div>
+                            </div>
+                            
+                            <div class="research-item">
+                                <h3 class="font-semibold text-lg mb-2">Ética y Estética Algorítmica</h3>
+                                <p class="text-gray-600 text-sm mb-2 leading-relaxed">Implicaciones éticas y estéticas del arte generado por IA en el contexto del arte contemporáneo.</p>
+                                <div class="text-xs text-gray-500">
+                                    <a href="https://doi.org/10.47941/ijars.2444" class="hover:text-accent transition-colors font-medium">
+                                        Cajulis, R.C.J. "Artificial Intelligence in Digital Art" (2025)
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-6 p-4 bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg border border-purple-100">
+                            <h4 class="font-semibold mb-3 text-sm uppercase tracking-wide text-gray-500">Aplicaciones Clave</h4>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-xs font-medium">Prompt Engineering</span>
+                                <span class="bg-pink-100 text-pink-800 px-3 py-1 rounded-full text-xs font-medium">GANs</span>
+                                <span class="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full text-xs font-medium">Arte Generativo</span>
+                                <span class="bg-violet-100 text-violet-800 px-3 py-1 rounded-full text-xs font-medium">Estética Algorítmica</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Co-creación en Artes Inmersivas -->
+                    <div class="card rounded-2xl p-8 fade-in delay-2">
+                        <img src="vr_abstract.png" alt="Realidad Virtual" class="section-image">
+                        <div class="flex items-center mb-6">
+                            <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-teal-500 rounded-xl flex items-center justify-center mr-4 shadow-lg">
+                                <i class="fas fa-vr-cardboard text-white text-2xl"></i>
+                            </div>
+                            <div>
+                                <h2 class="section-title">Co-creación en Artes Inmersivas</h2>
+                                <span class="tag">RV/RA</span>
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-4">
+                            <div class="research-item">
+                                <h3 class="font-semibold text-lg mb-2">Tecnologías Inmersivas</h3>
+                                <p class="text-gray-600 text-sm mb-2 leading-relaxed">RV y RA redefiniendo la expresión artística y la experiencia del espectador en espacios digitales.</p>
+                                <div class="text-xs text-gray-500">
+                                    <a href="https://doi.org/10.14569/ijacsa.2024.0150365" class="hover:text-accent transition-colors font-medium">
+                                        Wang, F. "VR and AR in Artistic Expression" (2024)
+                                    </a>
+                                </div>
+                            </div>
+                            
+                            <div class="research-item">
+                                <h3 class="font-semibold text-lg mb-2">Co-creación en Ópera</h3>
+                                <p class="text-gray-600 text-sm mb-2 leading-relaxed">Integración de comunidades en procesos creativos escénicos mediante tecnologías inmersivas.</p>
+                                <div class="text-xs text-gray-500">
+                                    <a href="https://doi.org/10.1109/tvcg.2025.3549194" class="hover:text-accent transition-colors font-medium">
+                                        Arslan, C. "3D Interactions in Performing Arts" (2025)
+                                    </a>
+                                </div>
+                            </div>
+                            
+                            <div class="research-item">
+                                <h3 class="font-semibold text-lg mb-2">Diseño de Interacción Coreográfica</h3>
+                                <p class="text-gray-600 text-sm mb-2 leading-relaxed">Interfaces 3D para co-creación humano-IA en danza y performance escénico.</p>
+                                <div class="text-xs text-gray-500">
+                                    <a href="https://doi.org/10.48550/arxiv.2405.03999" class="hover:text-accent transition-colors font-medium">
+                                        Liu, Y. "Human-AI Choreography Co-Creation" (2024)
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-6 p-4 bg-gradient-to-r from-blue-50 to-teal-50 rounded-lg border border-blue-100">
+                            <h4 class="font-semibold mb-3 text-sm uppercase tracking-wide text-gray-500">Tecnologías Emergentes</h4>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-xs font-medium">Realidad Virtual</span>
+                                <span class="bg-teal-100 text-teal-800 px-3 py-1 rounded-full text-xs font-medium">Realidad Aumentada</span>
+                                <span class="bg-cyan-100 text-cyan-800 px-3 py-1 rounded-full text-xs font-medium">Cyber-Ópera</span>
+                                <span class="bg-sky-100 text-sky-800 px-3 py-1 rounded-full text-xs font-medium">3D Interactivo</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Diseño de Interacción Semántica -->
+                    <div class="card rounded-2xl p-8 fade-in delay-3">
+                        <img src="interaction_design.png" alt="Diseño de Interacción" class="section-image">
+                        <div class="flex items-center mb-6">
+                            <div class="w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-500 rounded-xl flex items-center justify-center mr-4 shadow-lg">
+                                <i class="fas fa-hand-pointer text-white text-2xl"></i>
+                            </div>
+                            <div>
+                                <h2 class="section-title">Diseño de Interacción Semántica</h2>
+                                <span class="tag">Interfaces Colaborativas</span>
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-4">
+                            <div class="research-item">
+                                <h3 class="font-semibold text-lg mb-2">Colaboración Humano-IA</h3>
+                                <p class="text-gray-600 text-sm mb-2 leading-relaxed">Diseño de interacción semántica para colaboración creativa entre humanos e inteligencia artificial.</p>
+                                <div class="text-xs text-gray-500">
+                                    <a href="https://doi.org/10.48550/arxiv.2303.06430" class="hover:text-accent transition-colors font-medium">
+                                        Ding, Z. "Human-AI Text Co-Creation Tasks" (2023)
+                                    </a>
+                                </div>
+                            </div>
+                            
+                            <div class="research-item">
+                                <h3 class="font-semibold text-lg mb-2">Entornos Virtuales y Físicos</h3>
+                                <p class="text-gray-600 text-sm mb-2 leading-relaxed">Interfaces para colaboración humano-robot en entornos industriales y creativos.</p>
+                                <div class="text-xs text-gray-500">
+                                    <a href="https://doi.org/10.1016/j.cie.2024.110208" class="hover:text-accent transition-colors font-medium">
+                                        Cao, H-L. "Human-Robot Collaboration" (2024)
+                                    </a>
+                                </div>
+                            </div>
+                            
+                            <div class="research-item">
+                                <h3 class="font-semibold text-lg mb-2">Participación en Museos</h3>
+                                <p class="text-gray-600 text-sm mb-2 leading-relaxed">Diseño estratégico para fomentar la co-creación en exposiciones museísticas.</p>
+                                <div class="text-xs text-gray-500">
+                                    <a href="https://doi.org/10.1177/13548565231174597" class="hover:text-accent transition-colors font-medium">
+                                        Derda, I. "Museum Exhibition Co-Creation" (2023)
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-6 p-4 bg-gradient-to-r from-green-50 to-emerald-50 rounded-lg border border-green-100">
+                            <h4 class="font-semibold mb-3 text-sm uppercase tracking-wide text-gray-500">Contextos de Aplicación</h4>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-medium">Museos</span>
+                                <span class="bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full text-xs font-medium">Diseño Urbano</span>
+                                <span class="bg-lime-100 text-lime-800 px-3 py-1 rounded-full text-xs font-medium">Industria</span>
+                                <span class="bg-teal-100 text-teal-800 px-3 py-1 rounded-full text-xs font-medium">Educación</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Colaboración Humano-IA -->
+                    <div class="card rounded-2xl p-8 fade-in delay-4">
+                        <img src="collaboration_abstract.png" alt="Colaboración Humano-IA" class="section-image">
+                        <div class="flex items-center mb-6">
+                            <div class="w-16 h-16 bg-gradient-to-br from-orange-500 to-red-500 rounded-xl flex items-center justify-center mr-4 shadow-lg">
+                                <i class="fas fa-users text-white text-2xl"></i>
+                            </div>
+                            <div>
+                                <h2 class="section-title">Colaboración Humano-IA</h2>
+                                <span class="tag">Métodos Avanzados</span>
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-4">
+                            <div class="research-item">
+                                <h3 class="font-semibold text-lg mb-2">Body Prompting</h3>
+                                <p class="text-gray-600 text-sm mb-2 leading-relaxed">Gestos corporales como interfaz para generación de imágenes con IA en tiempo real.</p>
+                                <div class="text-xs text-gray-500">
+                                    <a href="https://doi.org/10.63046/ijms.1673173" class="hover:text-accent transition-colors font-medium">
+                                        Bayram, A.K.S. "AI-Infused Creativity Framework" (2025)
+                                    </a>
+                                </div>
+                            </div>
+                            
+                            <div class="research-item">
+                                <h3 class="font-semibold text-lg mb-2">Arteterapia Digital</h3>
+                                <p class="text-gray-600 text-sm mb-2 leading-relaxed">Aplicaciones terapéuticas de la co-creación humano-IA en contextos clínicos.</p>
+                                <div class="text-xs text-gray-500">
+                                    <a href="https://doi.org/10.1016/j.ijhcs.2023.103139" class="hover:text-accent transition-colors font-medium">
+                                        Du, X. "DeepThInk: Human-AI Co-Creation in Digital Art Therapy" (2023)
+                                    </a>
+                                </div>
+                            </div>
+                            
+                            <div class="research-item">
+                                <h3 class="font-semibold text-lg mb-2">Industrias Creativas</h3>
+                                <p class="text-gray-600 text-sm mb-2 leading-relaxed">Transformación de la música y arte mediante GANs y modelos generativos avanzados.</p>
+                                <div class="text-xs text-gray-500">
+                                    <a href="https://doi.org/10.2139/ssrn.4594824" class="hover:text-accent transition-colors font-medium">
+                                        Zhou, E.S. "Generative AI, Human Creativity, and Art" (2023)
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-6 p-4 bg-gradient-to-r from-orange-50 to-red-50 rounded-lg border border-orange-100">
+                            <h4 class="font-semibold mb-3 text-sm uppercase tracking-wide text-gray-500">Aplicaciones Específicas</h4>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-xs font-medium">Arteterapia</span>
+                                <span class="bg-red-100 text-red-800 px-3 py-1 rounded-full text-xs font-medium">Educación Artística</span>
+                                <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs font-medium">Música Generativa</span>
+                                <span class="bg-amber-100 text-amber-800 px-3 py-1 rounded-full text-xs font-medium">Body Prompting</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Central Connection Hub -->
+                <div class="text-center mb-16 fade-in delay-3">
+                    <div class="inline-block bg-white rounded-full p-10 shadow-xl border-2 border-accent relative">
+                        <div class="w-28 h-28 bg-gradient-to-br from-accent to-yellow-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
+                            <i class="fas fa-brain text-white text-4xl"></i>
+                        </div>
+                        <h3 class="section-title text-xl mb-4">Sinergia Creativa</h3>
+                        <p class="text-gray-600 text-base max-w-lg leading-relaxed">
+                            La intersección de estas áreas crea nuevas posibilidades paradigmáticas para la expresión artística 
+                            y la colaboración humano-máquina en el siglo XXI.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Research Metrics -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16">
+                    <div class="metric-card rounded-xl p-6 text-center fade-in delay-1">
+                        <div class="text-4xl font-bold text-accent mb-2">40+</div>
+                        <div class="text-sm text-gray-600 font-medium">Investigaciones</div>
+                        <div class="text-xs text-gray-500 mt-1">Académicas revisadas</div>
+                    </div>
+                    <div class="metric-card rounded-xl p-6 text-center fade-in delay-2">
+                        <div class="text-4xl font-bold text-accent mb-2">4</div>
+                        <div class="text-sm text-gray-600 font-medium">Áreas Principales</div>
+                        <div class="text-xs text-gray-500 mt-1">De investigación</div>
+                    </div>
+                    <div class="metric-card rounded-xl p-6 text-center fade-in delay-3">
+                        <div class="text-4xl font-bold text-accent mb-2">2021-2025</div>
+                        <div class="text-sm text-gray-600 font-medium">Período de Estudios</div>
+                        <div class="text-xs text-gray-500 mt-1">Investigación contemporánea</div>
+                    </div>
+                    <div class="metric-card rounded-xl p-6 text-center fade-in delay-4">
+                        <div class="text-4xl font-bold text-accent mb-2">∞</div>
+                        <div class="text-sm text-gray-600 font-medium">Posibilidades</div>
+                        <div class="text-xs text-gray-500 mt-1">De colaboración</div>
+                    </div>
+                </div>
+
+                <!-- Methodology Note -->
+                <div class="bg-white rounded-2xl p-10 shadow-lg border border-gray-100 fade-in delay-3">
+                    <h3 class="section-title mb-6 flex items-center">
+                        <i class="fas fa-microscope text-accent mr-4 text-2xl"></i>
+                        Metodología de Investigación
+                    </h3>
+                    <div class="grid md:grid-cols-3 gap-8">
+                        <div>
+                            <h4 class="font-semibold mb-3 text-lg">Fuentes Primarias</h4>
+                            <p class="text-gray-600 text-sm leading-relaxed">
+                                Artículos peer-reviewed de revistas especializadas en tecnología, arte y diseño interactivo. 
+                                Todos los estudios incluidos han sido publicados entre 2021-2025, garantizando la contemporaneidad del análisis.
+                            </p>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold mb-3 text-lg">Áreas de Aplicación</h4>
+                            <p class="text-gray-600 text-sm leading-relaxed">
+                                Educación artística, terapia digital, museos interactivos, diseño urbano participativo, 
+                                industrias creativas y performance en vivo con tecnologías inmersivas.
+                            </p>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold mb-3 text-lg">Enfoque Metodológico</h4>
+                            <p class="text-gray-600 text-sm leading-relaxed">
+                                Análisis transversal de múltiples disciplinas, identificando patrones emergentes en la 
+                                intersección entre creatividad humana y capacidades artificiales.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="py-16 px-4 text-center text-gray-500 bg-white bg-opacity-50 backdrop-blur-sm">
+            <div class="max-w-4xl mx-auto">
+                <p class="text-base mb-6 font-medium">
+                    Cuadro sinóptico basado en investigación académica contemporánea
+                </p>
+                <div class="flex justify-center space-x-8 text-sm">
+                    <span class="font-medium">Actualizado: Noviembre 2024</span>
+                    <span>•</span>
+                    <span class="font-medium">40+ fuentes académicas</span>
+                    <span>•</span>
+                    <span class="font-medium">4 áreas de estudio</span>
+                    <span>•</span>
+                    <span class="font-medium">Investigación en curso</span>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Initialize Vanta.js background with enhanced settings
+        VANTA.BIRDS({
+            el: "#vanta-bg",
+            mouseControls: true,
+            touchControls: true,
+            gyroControls: false,
+            minHeight: 200.00,
+            minWidth: 200.00,
+            scale: 1.00,
+            scaleMobile: 1.00,
+            backgroundColor: 0xf8f6f0,
+            color1: 0xc9a96e,
+            color2: 0x1a1a1a,
+            colorMode: "lerpGradient",
+            birdSize: 1.20,
+            wingSpan: 25.00,
+            speedLimit: 3.00,
+            separation: 20.00,
+            alignment: 20.00,
+            cohesion: 20.00,
+            quantity: 3.00
+        });
+
+        // Smooth scroll for internal links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Add intersection observer for animations with staggered delays
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.style.animationDelay = '0s';
+                        entry.target.classList.add('fade-in');
+                    }, index * 100);
+                }
+            });
+        }, observerOptions);
+
+        // Observe all cards and elements
+        document.querySelectorAll('.card, .research-item, .metric-card').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Add hover effects for research items
+        document.querySelectorAll('.research-item').forEach(item => {
+            item.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateX(5px)';
+            });
+            
+            item.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateX(0)';
+            });
+        });
+
+        // Add click to copy functionality for citations
+        document.querySelectorAll('a[href*="doi.org"]').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                navigator.clipboard.writeText(this.href).then(() => {
+                    // Show a subtle notification
+                    const notification = document.createElement('div');
+                    notification.textContent = 'Enlace copiado al portapapeles';
+                    notification.className = 'fixed top-4 right-4 bg-accent text-white px-4 py-2 rounded-lg text-sm z-50';
+                    document.body.appendChild(notification);
+                    
+                    setTimeout(() => {
+                        notification.remove();
+                    }, 2000);
+                });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics - SoftwareHub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/plotly.js/3.0.3/plotly.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { font-family: 'Inter', sans-serif; }
+        .gradient-text {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .nav-link {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        .chart-container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-900">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <h1 class="text-2xl font-bold gradient-text">SoftwareHub</h1>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-8">
+                    <a href="index.html" class="nav-link text-gray-700 hover:text-gray-900 px-3 py-2 text-sm font-medium">Inicio</a>
+                    <a href="#" class="nav-link text-gray-700 hover:text-gray-900 px-3 py-2 text-sm font-medium">Analytics</a>
+                    <a href="categories.html" class="nav-link text-gray-700 hover:text-gray-900 px-3 py-2 text-sm font-medium">Categorías</a>
+                    <a href="about.html" class="nav-link text-gray-700 hover:text-gray-900 px-3 py-2 text-sm font-medium">Acerca de</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <section class="bg-gradient-to-r from-purple-600 to-blue-600 text-white py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-4xl font-bold mb-4">Analytics Dashboard</h1>
+            <p class="text-xl">Análisis detallado del ecosistema de herramientas de software</p>
+        </div>
+    </section>
+
+    <!-- Analytics Content -->
+    <section class="py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <!-- Key Metrics -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
+                <div class="bg-white rounded-lg shadow-lg p-6 text-center">
+                    <div class="text-3xl font-bold text-purple-600 mb-2">8</div>
+                    <div class="text-gray-600">Total Herramientas</div>
+                </div>
+                <div class="bg-white rounded-lg shadow-lg p-6 text-center">
+                    <div class="text-3xl font-bold text-blue-600 mb-2">6</div>
+                    <div class="text-gray-600">Instituciones</div>
+                </div>
+                <div class="bg-white rounded-lg shadow-lg p-6 text-center">
+                    <div class="text-3xl font-bold text-green-600 mb-2">5</div>
+                    <div class="text-gray-600">Categorías</div>
+                </div>
+                <div class="bg-white rounded-lg shadow-lg p-6 text-center">
+                    <div class="text-3xl font-bold text-orange-600 mb-2">100%</div>
+                    <div class="text-gray-600">Open Source</div>
+                </div>
+            </div>
+
+            <!-- Charts -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                
+                <!-- Distribution by Institution -->
+                <div class="chart-container">
+                    <h3 class="text-xl font-bold mb-4 gradient-text">Distribución por Institución</h3>
+                    <div id="institution-chart" style="height: 350px;"></div>
+                </div>
+
+                <!-- Technology Categories -->
+                <div class="chart-container">
+                    <h3 class="text-xl font-bold mb-4 gradient-text">Categorías de Tecnología</h3>
+                    <div id="category-chart" style="height: 350px;"></div>
+                </div>
+
+                <!-- Timeline of Development -->
+                <div class="chart-container lg:col-span-2">
+                    <h3 class="text-xl font-bold mb-4 gradient-text">Línea de Tiempo de Desarrollo</h3>
+                    <div id="timeline-chart" style="height: 400px;"></div>
+                </div>
+
+                <!-- Usage Complexity Matrix -->
+                <div class="chart-container lg:col-span-2">
+                    <h3 class="text-xl font-bold mb-4 gradient-text">Matriz de Complejidad vs Popularidad</h3>
+                    <div id="scatter-chart" style="height: 400px;"></div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <p class="text-gray-400">© 2025 SoftwareHub Dashboard. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Institution Distribution Chart
+        const institutionData = [{
+            x: ['MIT Game Lab', 'Univ. Kentucky', 'Knight Lab', 'Stanford VR', 'IRCAM', 'Ars Electronica'],
+            y: [1, 2, 3, 1, 1, 1],
+            type: 'bar',
+            marker: {
+                color: ['#667eea', '#764ba2', '#f093fb', '#f5576c', '#4facfe', '#43e97b']
+            }
+        }];
+
+        const institutionLayout = {
+            title: '',
+            xaxis: { title: 'Instituciones' },
+            yaxis: { title: 'Número de Herramientas' },
+            font: { family: 'Inter, sans-serif' },
+            margin: { t: 20, b: 80, l: 60, r: 20 }
+        };
+
+        Plotly.newPlot('institution-chart', institutionData, institutionLayout, {responsive: true});
+
+        // Category Chart
+        const categoryData = [{
+            values: [3, 2, 1, 1, 1],
+            labels: ['Educación VR', 'IA Musical', 'Narrativa', 'Visualización', 'Cine Interactivo'],
+            type: 'pie',
+            hole: 0.4,
+            marker: {
+                colors: ['#667eea', '#764ba2', '#f093fb', '#f5576c', '#4facfe']
+            },
+            textinfo: 'label+percent',
+            textposition: 'outside'
+        }];
+
+        const categoryLayout = {
+            title: '',
+            font: { family: 'Inter, sans-serif' },
+            showlegend: false,
+            margin: { t: 20, b: 20, l: 20, r: 20 }
+        };
+
+        Plotly.newPlot('category-chart', categoryData, categoryLayout, {responsive: true});
+
+        // Timeline Chart
+        const timelineData = [{
+            x: ['2018', '2019', '2020', '2021', '2022', '2023', '2024'],
+            y: [1, 1, 2, 1, 1, 1, 1],
+            type: 'scatter',
+            mode: 'lines+markers',
+            name: 'Herramientas Desarrolladas',
+            line: { color: '#667eea', width: 3 },
+            marker: { color: '#667eea', size: 10 }
+        }];
+
+        const timelineLayout = {
+            title: '',
+            xaxis: { title: 'Año' },
+            yaxis: { title: 'Número de Herramientas' },
+            font: { family: 'Inter, sans-serif' },
+            margin: { t: 20, b: 60, l: 60, r: 20 }
+        };
+
+        Plotly.newPlot('timeline-chart', timelineData, timelineLayout, {responsive: true});
+
+        // Scatter Chart - Complexity vs Popularity
+        const scatterData = [{
+            x: [7, 8, 4, 5, 9, 8, 7, 6],
+            y: [6, 5, 8, 7, 4, 5, 6, 7],
+            text: ['Cellverse', 'Glaive y Sabre', 'TimelineJS', 'SceneVR', 'Chunity', 'Somax2', 'Ricercar', 'Cutting Room'],
+            mode: 'markers',
+            type: 'scatter',
+            marker: {
+                size: 15,
+                color: ['#667eea', '#764ba2', '#f093fb', '#f5576c', '#4facfe', '#43e97b', '#fa709a', '#fee140'],
+                opacity: 0.8
+            }
+        }];
+
+        const scatterLayout = {
+            title: '',
+            xaxis: { title: 'Complejidad Técnica (1-10)' },
+            yaxis: { title: 'Popularidad (1-10)' },
+            font: { family: 'Inter, sans-serif' },
+            margin: { t: 20, b: 60, l: 60, r: 20 }
+        };
+
+        Plotly.newPlot('scatter-chart', scatterData, scatterLayout, {responsive: true});
+
+        // Page animations
+        anime({
+            targets: '.chart-container',
+            opacity: [0, 1],
+            translateY: [30, 0],
+            delay: anime.stagger(200),
+            duration: 800,
+            easing: 'easeOutQuart'
+        });
+    </script>
+</body>
+</html>
