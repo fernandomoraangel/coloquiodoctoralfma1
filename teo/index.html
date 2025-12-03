@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Marco Teórico Bicameral - Tabla Interactiva</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.179.1/three.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vanta/0.5.24/vanta.birds.min.js"></script>
@@ -16,62 +19,62 @@
             --sage: #9caf88;
             --gold: #d4af37;
         }
-        
+
         body {
             font-family: 'IBM Plex Sans', sans-serif;
             background-color: var(--cream);
             color: var(--charcoal);
             line-height: 1.6;
         }
-        
+
         .playfair {
             font-family: 'Playfair Display', serif;
         }
-        
+
         .hero-bg {
             background: linear-gradient(135deg, var(--cream) 0%, #f5f2ed 100%);
         }
-        
+
         .table-container {
             background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(196, 112, 79, 0.2);
         }
-        
+
         .table-header {
             background: linear-gradient(135deg, var(--terracotta) 0%, #b85c3c 100%);
             color: white;
         }
-        
+
         .table-row:nth-child(even) {
             background-color: rgba(156, 175, 136, 0.1);
         }
-        
+
         .table-row:hover {
             background-color: rgba(212, 175, 55, 0.1);
             transform: translateY(-1px);
             transition: all 0.3s ease;
         }
-        
+
         .sort-btn {
             transition: all 0.3s ease;
         }
-        
+
         .sort-btn:hover {
             transform: scale(1.1);
             color: var(--gold);
         }
-        
+
         .filter-input {
             border: 2px solid var(--sage);
             transition: all 0.3s ease;
         }
-        
+
         .filter-input:focus {
             border-color: var(--terracotta);
             box-shadow: 0 0 0 3px rgba(196, 112, 79, 0.1);
         }
-        
+
         .vanta-canvas {
             position: absolute;
             top: 0;
@@ -80,52 +83,202 @@
             height: 100%;
             z-index: -1;
         }
-        
+
         .content-overlay {
             position: relative;
             z-index: 1;
         }
-        
+
         .accent-line {
             width: 80px;
             height: 4px;
             background: linear-gradient(90deg, var(--terracotta) 0%, var(--gold) 100%);
         }
-        
+
         .philosopher {
             color: var(--terracotta);
             font-weight: 600;
         }
-        
+
         .concept {
             color: var(--sage);
             font-style: italic;
         }
-        
+
         .risk {
             color: #b85c3c;
             font-weight: 500;
         }
-        
+
         .result {
             color: var(--charcoal);
             font-weight: 500;
         }
-        
+
         @media (max-width: 768px) {
             .table-container {
                 overflow-x: auto;
             }
-            
+
             .table-responsive {
-                min-width: 800px;
+                min-width: 600px;
             }
+        }
+
+        table {
+            table-layout: fixed;
+        }
+
+        th,
+        td {
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+
+        .nav-menu {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid rgba(196, 112, 79, 0.2);
+            box-shadow: 0 4px 6px rgba(45, 45, 45, 0.05);
+        }
+
+        .nav-link {
+            transition: all 0.3s ease;
+            position: relative;
+            padding-bottom: 4px;
+        }
+
+        .nav-link:hover {
+            color: var(--terracotta);
+        }
+
+        .nav-link.active {
+            color: var(--terracotta);
+            font-weight: 600;
+        }
+
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--terracotta) 0%, var(--gold) 100%);
+            border-radius: 2px;
+        }
+
+        /* Modal Popup Styles */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(45, 45, 45, 0.8);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+            opacity: 1;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: var(--cream);
+            border-radius: 20px;
+            padding: 2rem;
+            max-width: 900px;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+            border: 2px solid var(--terracotta);
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-header {
+            border-bottom: 2px solid var(--terracotta);
+            padding-bottom: 1rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-close {
+            cursor: pointer;
+            background: var(--terracotta);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .modal-close:hover {
+            background: #b85c3c;
+            transform: rotate(90deg);
+        }
+
+        .concept-item {
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(196, 112, 79, 0.2);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .concept-item:hover {
+            border-color: var(--terracotta);
+            box-shadow: 0 4px 12px rgba(196, 112, 79, 0.2);
+        }
+
+        .author-clickable {
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .author-clickable:hover {
+            text-decoration: underline;
+            opacity: 0.8;
         }
     </style>
 </head>
+
 <body>
     <div id="vanta-bg" class="min-h-screen hero-bg relative">
         <div class="content-overlay">
+            <!-- Navigation Menu -->
+            <nav class="nav-menu py-4 px-6 sticky top-0 z-50">
+                <div class="max-w-7xl mx-auto flex justify-center items-center gap-8">
+                    <a href="index.html" class="nav-link active playfair text-lg font-semibold text-charcoal">
+                        Marco Teórico
+                    </a>
+                    <span class="text-charcoal/30">•</span>
+                    <a href="glosario.html" class="nav-link playfair text-lg text-charcoal">
+                        Glosario de Conceptos
+                    </a>
+                </div>
+            </nav>
+
             <!-- Header -->
             <header class="pt-16 pb-12 px-6">
                 <div class="max-w-7xl mx-auto text-center">
@@ -134,7 +287,7 @@
                     </h1>
                     <div class="accent-line mx-auto mb-8"></div>
                     <p class="text-xl md:text-2xl text-charcoal/80 max-w-4xl mx-auto leading-relaxed">
-                        Cuadro síntesis de dimensiones clave, autores y conceptos fundamentales 
+                        Cuadro síntesis de dimensiones clave, autores y conceptos fundamentales
                         para la investigación en co-creación artística con inteligencia artificial
                     </p>
                 </div>
@@ -148,18 +301,12 @@
                             <label for="filterInput" class="block text-sm font-semibold text-charcoal mb-2">
                                 Filtrar por contenido:
                             </label>
-                            <input 
-                                type="text" 
-                                id="filterInput" 
-                                placeholder="Buscar autores, conceptos o dimensiones..."
-                                class="w-full px-4 py-3 rounded-lg filter-input bg-white/80 focus:outline-none"
-                            >
+                            <input type="text" id="filterInput" placeholder="Buscar autores, conceptos o dimensiones..."
+                                class="w-full px-4 py-3 rounded-lg filter-input bg-white/80 focus:outline-none">
                         </div>
                         <div class="flex gap-2">
-                            <button 
-                                id="clearFilter"
-                                class="px-6 py-3 bg-sage text-white rounded-lg hover:bg-sage/80 transition-colors font-medium"
-                            >
+                            <button id="clearFilter"
+                                class="px-6 py-3 bg-sage text-white rounded-lg hover:bg-sage/80 transition-colors font-medium">
                                 Limpiar
                             </button>
                         </div>
@@ -168,7 +315,7 @@
             </div>
 
             <!-- Table -->
-            <div class="max-w-7xl mx-auto px-6 pb-16">
+            <div class="max-w-full mx-auto px-6 pb-16">
                 <div class="table-container rounded-xl shadow-2xl overflow-hidden">
                     <div class="overflow-x-auto">
                         <table class="table-responsive w-full">
@@ -179,47 +326,47 @@
                                             <span class="playfair text-lg font-bold">Dimensión clave</span>
                                             <button class="sort-btn" data-column="dimension" data-order="asc">
                                                 <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                                    <path d="M5 8l5-5 5 5H5z"/>
+                                                    <path d="M5 8l5-5 5 5H5z" />
                                                 </svg>
                                             </button>
                                         </div>
                                     </th>
-                                    <th class="px-6 py-4 text-left min-w-80">
+                                    <th class="px-6 py-4 text-left min-w-48">
                                         <div class="flex items-center gap-2">
                                             <span class="playfair text-lg font-bold">Atlas filosófico</span>
                                             <button class="sort-btn" data-column="atlas_filosofico" data-order="asc">
                                                 <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                                    <path d="M5 8l5-5 5 5H5z"/>
+                                                    <path d="M5 8l5-5 5 5H5z" />
                                                 </svg>
                                             </button>
                                         </div>
                                     </th>
-                                    <th class="px-6 py-4 text-left min-w-80">
+                                    <th class="px-6 py-4 text-left min-w-48">
                                         <div class="flex items-center gap-2">
                                             <span class="playfair text-lg font-bold">Laboratorio</span>
                                             <button class="sort-btn" data-column="laboratorio" data-order="asc">
                                                 <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                                    <path d="M5 8l5-5 5 5H5z"/>
+                                                    <path d="M5 8l5-5 5 5H5z" />
                                                 </svg>
                                             </button>
                                         </div>
                                     </th>
-                                    <th class="px-6 py-4 text-left min-w-64">
+                                    <th class="px-6 py-4 text-left min-w-40">
                                         <div class="flex items-center gap-2">
                                             <span class="playfair text-lg font-bold">Resultado esperado</span>
                                             <button class="sort-btn" data-column="resultado_esperado" data-order="asc">
                                                 <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                                    <path d="M5 8l5-5 5 5H5z"/>
+                                                    <path d="M5 8l5-5 5 5H5z" />
                                                 </svg>
                                             </button>
                                         </div>
                                     </th>
-                                    <th class="px-6 py-4 text-left min-w-80">
+                                    <th class="px-6 py-4 text-left min-w-48">
                                         <div class="flex items-center gap-2">
                                             <span class="playfair text-lg font-bold">Dimensión crítica</span>
                                             <button class="sort-btn" data-column="dimension_critica" data-order="asc">
                                                 <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                                    <path d="M5 8l5-5 5 5H5z"/>
+                                                    <path d="M5 8l5-5 5 5H5z" />
                                                 </svg>
                                             </button>
                                         </div>
@@ -238,14 +385,31 @@
             <footer class="bg-charcoal/5 py-8 px-6">
                 <div class="max-w-7xl mx-auto text-center">
                     <p class="text-charcoal/60 text-lg">
-                        Marco teórico para investigación en co-creación artística con IA • 
-                        <span class="playfair font-semibold">Bicameral Framework</span>
+                        Marco teórico para investigación en co-creación artística con IA •
+                        <span class="playfair font-semibold">Bicameral Framework</span> •
+                        <a href="glosario.html"
+                            class="playfair font-semibold hover:text-terracotta transition-colors">Ver Glosario de
+                            Conceptos</a>
                     </p>
                 </div>
             </footer>
         </div>
     </div>
 
+    <!-- Modal Popup -->
+    <div id="authorModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalAuthorName" class="playfair text-3xl font-bold text-charcoal"></h2>
+                <button class="modal-close" onclick="closeAuthorModal()">&times;</button>
+            </div>
+            <div id="modalConceptsList" class="space-y-4">
+                <!-- Los conceptos se cargarán aquí dinámicamente -->
+            </div>
+        </div>
+    </div>
+
     <script src="script.js"></script>
 </body>
+
 </html>

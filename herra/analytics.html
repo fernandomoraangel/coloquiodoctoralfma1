@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,17 +10,22 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/plotly.js/3.0.3/plotly.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        * { font-family: 'Inter', sans-serif; }
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+
         .gradient-text {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
+
         .nav-link {
             position: relative;
             transition: all 0.3s ease;
         }
+
         .nav-link::after {
             content: '';
             position: absolute;
@@ -30,18 +36,35 @@
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             transition: width 0.3s ease;
         }
+
         .nav-link:hover::after {
             width: 100%;
         }
+
         .chart-container {
             background: white;
             border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
             padding: 24px;
             margin-bottom: 24px;
         }
+
+        .section-content {
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .section-content.hidden {
+            display: none;
+        }
+
+        mark {
+            background-color: #fef08a;
+            padding: 2px 4px;
+            border-radius: 2px;
+        }
     </style>
 </head>
+
 <body class="bg-gray-50 text-gray-900">
     <!-- Navigation -->
     <nav class="bg-white shadow-lg sticky top-0 z-50">
@@ -53,10 +76,12 @@
                     </div>
                 </div>
                 <div class="flex items-center space-x-8">
-                    <a href="index.html" class="nav-link text-gray-700 hover:text-gray-900 px-3 py-2 text-sm font-medium">Inicio</a>
-                    <a href="#" class="nav-link text-gray-700 hover:text-gray-900 px-3 py-2 text-sm font-medium">Analytics</a>
-                    <a href="categories.html" class="nav-link text-gray-700 hover:text-gray-900 px-3 py-2 text-sm font-medium">Categorías</a>
-                    <a href="about.html" class="nav-link text-gray-700 hover:text-gray-900 px-3 py-2 text-sm font-medium">Acerca de</a>
+                    <a href="index.html"
+                        class="nav-link text-gray-700 hover:text-gray-900 px-3 py-2 text-sm font-medium">Inicio</a>
+                    <a href="analytics.html"
+                        class="nav-link text-gray-700 hover:text-gray-900 px-3 py-2 text-sm font-medium">Analytics</a>
+                    <a href="categories.html"
+                        class="nav-link text-gray-700 hover:text-gray-900 px-3 py-2 text-sm font-medium">Categorías</a>
                 </div>
             </div>
         </div>
@@ -73,55 +98,200 @@
     <!-- Analytics Content -->
     <section class="py-16">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            
+
             <!-- Key Metrics -->
             <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
                 <div class="bg-white rounded-lg shadow-lg p-6 text-center">
-                    <div class="text-3xl font-bold text-purple-600 mb-2">8</div>
+                    <div class="text-4xl font-bold text-purple-600 mb-2">30</div>
                     <div class="text-gray-600">Total Herramientas</div>
                 </div>
                 <div class="bg-white rounded-lg shadow-lg p-6 text-center">
-                    <div class="text-3xl font-bold text-blue-600 mb-2">6</div>
+                    <div class="text-4xl font-bold text-blue-600 mb-2">12</div>
                     <div class="text-gray-600">Instituciones</div>
                 </div>
                 <div class="bg-white rounded-lg shadow-lg p-6 text-center">
-                    <div class="text-3xl font-bold text-green-600 mb-2">5</div>
+                    <div class="text-4xl font-bold text-green-600 mb-2">6</div>
                     <div class="text-gray-600">Categorías</div>
                 </div>
                 <div class="bg-white rounded-lg shadow-lg p-6 text-center">
-                    <div class="text-3xl font-bold text-orange-600 mb-2">100%</div>
-                    <div class="text-gray-600">Open Source</div>
+                    <div class="text-4xl font-bold text-orange-600 mb-2">8</div>
+                    <div class="text-gray-600">Tipos Tecnología</div>
                 </div>
             </div>
 
-            <!-- Charts -->
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                
-                <!-- Distribution by Institution -->
-                <div class="chart-container">
-                    <h3 class="text-xl font-bold mb-4 gradient-text">Distribución por Institución</h3>
-                    <div id="institution-chart" style="height: 350px;"></div>
+            <!-- Category Distribution -->
+            <div class="section-content" data-category="all educacion-vr juegos visualizacion ia-musical narrativa"
+                data-keywords="categoría distribución porcentual gráfico pastel barras educacion vr juegos visualizacion ia musical narrativa">
+                <h2 class="text-3xl font-bold mb-8 gradient-text text-center">Distribución por Categoría</h2>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+                    <div class="chart-container">
+                        <h3 class="text-xl font-bold mb-4 gradient-text">Distribución Porcentual</h3>
+                        <div id="category-pie-chart" style="height: 400px;"></div>
+                    </div>
+                    <div class="chart-container">
+                        <h3 class="text-xl font-bold mb-4 gradient-text">Número de Herramientas</h3>
+                        <div id="category-bar-chart" style="height: 400px;"></div>
+                    </div>
                 </div>
-
-                <!-- Technology Categories -->
-                <div class="chart-container">
-                    <h3 class="text-xl font-bold mb-4 gradient-text">Categorías de Tecnología</h3>
-                    <div id="category-chart" style="height: 350px;"></div>
-                </div>
-
-                <!-- Timeline of Development -->
-                <div class="chart-container lg:col-span-2">
-                    <h3 class="text-xl font-bold mb-4 gradient-text">Línea de Tiempo de Desarrollo</h3>
-                    <div id="timeline-chart" style="height: 400px;"></div>
-                </div>
-
-                <!-- Usage Complexity Matrix -->
-                <div class="chart-container lg:col-span-2">
-                    <h3 class="text-xl font-bold mb-4 gradient-text">Matriz de Complejidad vs Popularidad</h3>
-                    <div id="scatter-chart" style="height: 400px;"></div>
-                </div>
-
             </div>
+
+            <!-- Institution Analysis -->
+            <div class="section-content" data-category="all educacion-vr juegos visualizacion ia-musical narrativa"
+                data-keywords="institución lab laboratorio mit knight ircam stanford scatter vision kentucky e-line contribuciones proyectos">
+                <h2 class="text-3xl font-bold mb-8 gradient-text text-center">Análisis por Institución</h2>
+                <div class="chart-container mb-8">
+                    <div id="institution-chart" style="height: 400px;"></div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+                    <div class="bg-purple-50 rounded-lg p-6 border-l-4 border-purple-600">
+                        <h3 class="text-xl font-bold text-purple-800 mb-2">MIT Game Lab</h3>
+                        <p class="text-gray-600 text-sm">5 proyectos</p>
+                        <p class="text-purple-700 mt-2">Enfoque en juegos educativos con física y ciencia</p>
+                    </div>
+                    <div class="bg-blue-50 rounded-lg p-6 border-l-4 border-blue-600">
+                        <h3 class="text-xl font-bold text-blue-800 mb-2">Knight Lab</h3>
+                        <p class="text-gray-600 text-sm">5 proyectos</p>
+                        <p class="text-blue-700 mt-2">Herramientas de visualización y narrativa digital</p>
+                    </div>
+                    <div class="bg-pink-50 rounded-lg p-6 border-l-4 border-pink-600">
+                        <h3 class="text-xl font-bold text-pink-800 mb-2">IRCAM</h3>
+                        <p class="text-gray-600 text-sm">3 proyectos</p>
+                        <p class="text-pink-700 mt-2">Inteligencia artificial para música y audio</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Technology Type Analysis -->
+            <div class="section-content" data-category="all educacion-vr juegos visualizacion ia-musical narrativa"
+                data-keywords="tecnología tipo vr ar xr realidad virtual aumentada juegos educativos visualización datos ia ml musical narrativa digital jerarquía">
+                <h2 class="text-3xl font-bold mb-8 gradient-text text-center">Análisis por Tipo de Tecnología</h2>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+                    <div class="chart-container">
+                        <div id="tech-sunburst-chart" style="height: 500px;"></div>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="bg-white rounded-lg shadow p-6">
+                            <div class="flex justify-between items-center mb-2">
+                                <h3 class="font-bold text-gray-800">🥽 VR/AR/XR</h3>
+                                <span class="text-purple-600 font-bold">8 herramientas</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="bg-purple-600 h-2 rounded-full" style="width: 27%"></div>
+                            </div>
+                        </div>
+                        <div class="bg-white rounded-lg shadow p-6">
+                            <div class="flex justify-between items-center mb-2">
+                                <h3 class="font-bold text-gray-800">🎮 Juegos Educativos</h3>
+                                <span class="text-blue-600 font-bold">6 herramientas</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="bg-blue-600 h-2 rounded-full" style="width: 20%"></div>
+                            </div>
+                        </div>
+                        <div class="bg-white rounded-lg shadow p-6">
+                            <div class="flex justify-between items-center mb-2">
+                                <h3 class="font-bold text-gray-800">📊 Visualización Datos</h3>
+                                <span class="text-green-600 font-bold">9 herramientas</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="bg-green-600 h-2 rounded-full" style="width: 30%"></div>
+                            </div>
+                        </div>
+                        <div class="bg-white rounded-lg shadow p-6">
+                            <div class="flex justify-between items-center mb-2">
+                                <h3 class="font-bold text-gray-800">🤖 IA/ML Musical</h3>
+                                <span class="text-pink-600 font-bold">3 herramientas</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="bg-pink-600 h-2 rounded-full" style="width: 10%"></div>
+                            </div>
+                        </div>
+                        <div class="bg-white rounded-lg shadow p-6">
+                            <div class="flex justify-between items-center mb-2">
+                                <h3 class="font-bold text-gray-800">📖 Narrativa Digital</h3>
+                                <span class="text-orange-600 font-bold">4 herramientas</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="bg-orange-600 h-2 rounded-full" style="width: 13%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Application Domain Analysis -->
+            <div class="section-content" data-category="all educacion-vr juegos visualizacion ia-musical narrativa"
+                data-keywords="aplicación dominio áreas educación investigación arte cultura ciencia periodismo entretenimiento formación profesional cobertura radar">
+                <h2 class="text-3xl font-bold mb-8 gradient-text text-center">Áreas de Aplicación</h2>
+                <div class="chart-container mb-12">
+                    <div id="domain-radar-chart" style="height: 500px;"></div>
+                </div>
+            </div>
+
+            <!-- Cross-Category Analysis -->
+            <div class="section-content" data-category="all educacion-vr juegos visualizacion ia-musical narrativa"
+                data-keywords="análisis cruzado tecnologías emergentes madurez adopción prototipo beta estable legacy">
+                <h2 class="text-3xl font-bold mb-8 gradient-text text-center">Análisis Cruzado</h2>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+                    <div class="chart-container">
+                        <h3 class="text-xl font-bold mb-4 text-gray-800">Tecnologías Emergentes</h3>
+                        <div id="emerging-tech-chart" style="height: 400px;"></div>
+                    </div>
+                    <div class="chart-container">
+                        <h3 class="text-xl font-bold mb-4 text-gray-800">Madurez de Herramientas</h3>
+                        <div id="maturity-chart" style="height: 400px;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Key Insights -->
+            <div class="section-content" data-category="all educacion-vr juegos visualizacion ia-musical narrativa"
+                data-keywords="conclusiones insights diversidad tecnológica liderazgo institucional accesibilidad tendencias emergentes gamificación ia creativa">
+                <h2 class="text-3xl font-bold mb-8 gradient-text text-center">Conclusiones Clave</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="bg-white rounded-lg shadow-lg p-6 border-t-4 border-purple-600">
+                        <div class="text-3xl mb-3">🎯</div>
+                        <h3 class="text-xl font-bold mb-2 text-gray-800">Diversidad Tecnológica</h3>
+                        <p class="text-gray-600">El ecosistema abarca desde VR/AR hasta IA musical, demostrando la
+                            amplitud
+                            de herramientas educativas digitales.</p>
+                    </div>
+                    <div class="bg-white rounded-lg shadow-lg p-6 border-t-4 border-blue-600">
+                        <div class="text-3xl mb-3">🏛️</div>
+                        <h3 class="text-xl font-bold mb-2 text-gray-800">Liderazgo Institucional</h3>
+                        <p class="text-gray-600">MIT Game Lab y Knight Lab dominan con 5 proyectos cada uno, seguidos
+                            por
+                            IRCAM en IA musical.</p>
+                    </div>
+                    <div class="bg-white rounded-lg shadow-lg p-6 border-t-4 border-green-600">
+                        <div class="text-3xl mb-3">🌐</div>
+                        <h3 class="text-xl font-bold mb-2 text-gray-800">Accesibilidad</h3>
+                        <p class="text-gray-600">La mayoría de herramientas son gratuitas u open source, promoviendo la
+                            democratización educativa.</p>
+                    </div>
+                    <div class="bg-white rounded-lg shadow-lg p-6 border-t-4 border-pink-600">
+                        <div class="text-3xl mb-3">📈</div>
+                        <h3 class="text-xl font-bold mb-2 text-gray-800">Tendencias Emergentes</h3>
+                        <p class="text-gray-600">VR/AR y visualización de datos lideran en número de proyectos,
+                            reflejando
+                            demandas actuales.</p>
+                    </div>
+                    <div class="bg-white rounded-lg shadow-lg p-6 border-t-4 border-orange-600">
+                        <div class="text-3xl mb-3">🎮</div>
+                        <h3 class="text-xl font-bold mb-2 text-gray-800">Gamificación</h3>
+                        <p class="text-gray-600">Fuerte presencia de juegos educativos que enseñan física, ciencia y
+                            sostenibilidad de forma interactiva.</p>
+                    </div>
+                    <div class="bg-white rounded-lg shadow-lg p-6 border-t-4 border-indigo-600">
+                        <div class="text-3xl mb-3">🔊</div>
+                        <h3 class="text-xl font-bold mb-2 text-gray-800">IA Creativa</h3>
+                        <p class="text-gray-600">IRCAM lidera en IA musical con herramientas de detección,
+                            espacialización y
+                            composición asistida.</p>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </section>
 
@@ -133,92 +303,178 @@
     </footer>
 
     <script>
-        // Institution Distribution Chart
-        const institutionData = [{
-            x: ['MIT Game Lab', 'Univ. Kentucky', 'Knight Lab', 'Stanford VR', 'IRCAM', 'Ars Electronica'],
-            y: [1, 2, 3, 1, 1, 1],
-            type: 'bar',
+        // Category Distribution - Pie Chart
+        const categoryPieData = [{
+            values: [8, 6, 9, 3, 4],
+            labels: ['Educación VR', 'Juegos Educativos', 'Visualización', 'IA Musical', 'Narrativa'],
+            type: 'pie',
             marker: {
-                color: ['#667eea', '#764ba2', '#f093fb', '#f5576c', '#4facfe', '#43e97b']
-            }
+                colors: ['#667eea', '#4facfe', '#43e97b', '#f093fb', '#fa709a']
+            },
+            hoverinfo: 'label+percent+value',
+            textinfo: 'label+percent'
         }];
 
-        const institutionLayout = {
-            title: '',
-            xaxis: { title: 'Instituciones' },
-            yaxis: { title: 'Número de Herramientas' },
+        const categoryPieLayout = {
+            font: { family: 'Inter, sans-serif' },
+            showlegend: true,
+            legend: { orientation: 'h', x: 0.1, y: -0.2 },
+            margin: { t: 20, b: 80, l: 20, r: 20 }
+        };
+
+        Plotly.newPlot('category-pie-chart', categoryPieData, categoryPieLayout, { responsive: true });
+
+        // Category Bar Chart
+        const categoryBarData = [{
+            x: ['Visualización', 'Educación VR', 'Juegos Edu.', 'Narrativa', 'IA Musical'],
+            y: [9, 8, 6, 4, 3],
+            type: 'bar',
+            marker: {
+                color: ['#43e97b', '#667eea', '#4facfe', '#fa709a', '#f093fb']
+            },
+            text: [9, 8, 6, 4, 3],
+            textposition: 'auto'
+        }];
+
+        const categoryBarLayout = {
+            yaxis: { title: 'Cantidad' },
+            xaxis: { title: 'Categoría' },
             font: { family: 'Inter, sans-serif' },
             margin: { t: 20, b: 80, l: 60, r: 20 }
         };
 
-        Plotly.newPlot('institution-chart', institutionData, institutionLayout, {responsive: true});
+        Plotly.newPlot('category-bar-chart', categoryBarData, categoryBarLayout, { responsive: true });
 
-        // Category Chart
-        const categoryData = [{
-            values: [3, 2, 1, 1, 1],
-            labels: ['Educación VR', 'IA Musical', 'Narrativa', 'Visualización', 'Cine Interactivo'],
-            type: 'pie',
-            hole: 0.4,
+        // Institution Analysis
+        const institutionData = [{
+            x: ['MIT Game Lab', 'Knight Lab', 'IRCAM', 'Stanford', 'Scatter', 'Vision3', 'U. Kentucky', 'E-Line Media', 'Otros'],
+            y: [5, 5, 3, 2, 2, 1, 1, 1, 10],
+            type: 'bar',
             marker: {
-                colors: ['#667eea', '#764ba2', '#f093fb', '#f5576c', '#4facfe']
+                color: '#667eea',
+                line: { color: '#764ba2', width: 2 }
             },
-            textinfo: 'label+percent',
-            textposition: 'outside'
+            text: [5, 5, 3, 2, 2, 1, 1, 1, 10],
+            textposition: 'auto'
         }];
 
-        const categoryLayout = {
-            title: '',
+        const institutionLayout = {
+            title: 'Contribuciones por Institución/Lab',
+            yaxis: { title: 'Número de Proyectos' },
+            xaxis: { title: 'Institución', tickangle: -45 },
+            font: { family: 'Inter, sans-serif' },
+            margin: { t: 60, b: 100, l: 60, r: 20 }
+        };
+
+        Plotly.newPlot('institution-chart', institutionData, institutionLayout, { responsive: true });
+
+        // Technology Sunburst
+        const techSunburstData = [{
+            type: 'sunburst',
+            labels: ['Herramientas', 'VR/AR/XR', 'Juegos', 'Visualización', 'IA/ML', 'Narrativa',
+                'SceneVR', 'Chunity', 'Cellverse', 'Current', 'Ahorse', 'Drop Ocean', 'Zero Days', 'Never Alone',
+                'Promesa', 'Aquapressure', 'Shadowspect', 'Livable Cities', 'Slower Speed', 'Never Alone',
+                'TimelineJS', 'StoryMapJS', 'JuxtaposeJS', 'SoundCite', 'StorylineJS', 'Dérive', 'Spectre', 'Learning', 'ROUND',
+                'Somax2', 'AI Music', 'Stereo-Spatial',
+                'Glaive', 'Sabre', 'Ciudad', 'Immersive J.'],
+            parents: ['', 'Herramientas', 'Herramientas', 'Herramientas', 'Herramientas', 'Herramientas',
+                'VR/AR/XR', 'VR/AR/XR', 'VR/AR/XR', 'VR/AR/XR', 'VR/AR/XR', 'VR/AR/XR', 'VR/AR/XR', 'VR/AR/XR',
+                'Juegos', 'Juegos', 'Juegos', 'Juegos', 'Juegos', 'Juegos',
+                'Visualización', 'Visualización', 'Visualización', 'Visualización', 'Visualización', 'Visualización', 'Visualización', 'Visualización', 'Visualización',
+                'IA/ML', 'IA/ML', 'IA/ML',
+                'Narrativa', 'Narrativa', 'Narrativa', 'Narrativa'],
+            values: [30, 8, 6, 9, 3, 4,
+                1, 1, 1, 1, 1, 1, 1, 1,
+                1, 1, 1, 1, 1, 1,
+                1, 1, 1, 1, 1, 1, 1, 1, 1,
+                1, 1, 1,
+                1, 1, 1, 1],
+            marker: {
+                colors: ['#667eea', '#667eea', '#4facfe', '#43e97b', '#f093fb', '#fa709a'],
+                line: { width: 2 }
+            },
+            branchvalues: 'total'
+        }];
+
+        const techSunburstLayout = {
+            title: 'Jerarquía Tecnológica',
+            font: { family: 'Inter, sans-serif' },
+            margin: { t: 40, b: 20, l: 20, r: 20 }
+        };
+
+        Plotly.newPlot('tech-sunburst-chart', techSunburstData, techSunburstLayout, { responsive: true });
+
+        // Application Domain Radar
+        const domainRadarData = [{
+            type: 'scatterpolar',
+            r: [8, 7, 5, 6, 9, 4, 7],
+            theta: ['Educación', 'Investigación', 'Arte/Cultura', 'Ciencia', 'Periodismo', 'Entretenimiento', 'Formación Prof.'],
+            fill: 'toself',
+            marker: { color: '#667eea' },
+            line: { color: '#764ba2', width: 2 }
+        }];
+
+        const domainRadarLayout = {
+            title: 'Cobertura por Dominio de Aplicación',
+            font: { family: 'Inter, sans-serif' },
+            polar: {
+                radialaxis: {
+                    visible: true,
+                    range: [0, 10]
+                }
+            },
+            margin: { t: 60, b: 40, l: 60, r: 60 }
+        };
+
+        Plotly.newPlot('domain-radar-chart', domainRadarData, domainRadarLayout, { responsive: true });
+
+        // Emerging Technologies
+        const emergingData = [{
+            x: ['IA Generativa', 'Web VR', 'Spatial Audio', 'Interactive Doc', 'Data Viz', 'Gamification'],
+            y: [3, 5, 2, 4, 9, 6],
+            type: 'scatter',
+            mode: 'markers',
+            marker: {
+                size: [15, 25, 10, 20, 45, 30],
+                color: ['#f093fb', '#667eea', '#fa709a', '#4facfe', '#43e97b', '#764ba2'],
+                line: { color: 'white', width: 2 }
+            },
+            text: ['Emergente', 'Consolidada', 'Nicho', 'Crecimiento', 'Madura', 'Establecida'],
+            textposition: 'top center'
+        }];
+
+        const emergingLayout = {
+            title: 'Adopción vs Madurez',
+            xaxis: { title: 'Tecnología' },
+            yaxis: { title: 'Nivel de Adopción', range: [0, 10] },
             font: { family: 'Inter, sans-serif' },
             showlegend: false,
-            margin: { t: 20, b: 20, l: 20, r: 20 }
+            margin: { t: 60, b: 80, l: 60, r: 20 }
         };
 
-        Plotly.newPlot('category-chart', categoryData, categoryLayout, {responsive: true});
+        Plotly.newPlot('emerging-tech-chart', emergingData, emergingLayout, { responsive: true });
 
-        // Timeline Chart
-        const timelineData = [{
-            x: ['2018', '2019', '2020', '2021', '2022', '2023', '2024'],
-            y: [1, 1, 2, 1, 1, 1, 1],
-            type: 'scatter',
-            mode: 'lines+markers',
-            name: 'Herramientas Desarrolladas',
-            line: { color: '#667eea', width: 3 },
-            marker: { color: '#667eea', size: 10 }
-        }];
-
-        const timelineLayout = {
-            title: '',
-            xaxis: { title: 'Año' },
-            yaxis: { title: 'Número de Herramientas' },
-            font: { family: 'Inter, sans-serif' },
-            margin: { t: 20, b: 60, l: 60, r: 20 }
-        };
-
-        Plotly.newPlot('timeline-chart', timelineData, timelineLayout, {responsive: true});
-
-        // Scatter Chart - Complexity vs Popularity
-        const scatterData = [{
-            x: [7, 8, 4, 5, 9, 8, 7, 6],
-            y: [6, 5, 8, 7, 4, 5, 6, 7],
-            text: ['Cellverse', 'Glaive y Sabre', 'TimelineJS', 'SceneVR', 'Chunity', 'Somax2', 'Ricercar', 'Cutting Room'],
-            mode: 'markers',
-            type: 'scatter',
+        // Maturity Chart
+        const maturityData = [{
+            x: ['Prototipo', 'Beta', 'Estable', 'Madura', 'Legacy'],
+            y: [3, 5, 15, 6, 1],
+            type: 'bar',
             marker: {
-                size: 15,
-                color: ['#667eea', '#764ba2', '#f093fb', '#f5576c', '#4facfe', '#43e97b', '#fa709a', '#fee140'],
-                opacity: 0.8
-            }
+                color: ['#f093fb', '#fa709a', '#43e97b', '#667eea', '#764ba2']
+            },
+            text: [3, 5, 15, 6, 1],
+            textposition: 'auto'
         }];
 
-        const scatterLayout = {
-            title: '',
-            xaxis: { title: 'Complejidad Técnica (1-10)' },
-            yaxis: { title: 'Popularidad (1-10)' },
+        const maturityLayout = {
+            title: 'Estado de Madurez',
+            yaxis: { title: 'Número de Herramientas' },
+            xaxis: { title: 'Estado de Desarrollo' },
             font: { family: 'Inter, sans-serif' },
-            margin: { t: 20, b: 60, l: 60, r: 20 }
+            margin: { t: 60, b: 80, l: 60, r: 20 }
         };
 
-        Plotly.newPlot('scatter-chart', scatterData, scatterLayout, {responsive: true});
+        Plotly.newPlot('maturity-chart', maturityData, maturityLayout, { responsive: true });
 
         // Page animations
         anime({
@@ -229,6 +485,9 @@
             duration: 800,
             easing: 'easeOutQuart'
         });
+
+        // Analytics visualizations are rendered via Plotly
     </script>
 </body>
+
 </html>

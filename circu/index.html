@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panorama de Festivales de Arte y Tecnología | Dashboard Interactivo</title>
+
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Source+Sans+Pro:wght@300;400;600&display=swap"
+        rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Plotly.js -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+    <style>
+        :root {
+            --cream: #FAF8F5;
+            --deep-brown: #8B4513;
+            --slate: #2F4F4F;
+            --warm-tan: #CD853F;
+            --stone: #708090;
+            --rust: #A0522D;
+            --olive: #556B2F;
+        }
+
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+            background-color: var(--cream);
+            color: #2C3E50;
+            line-height: 1.6;
+        }
+
+        .serif {
+            font-family: 'Playfair Display', serif;
+        }
+
+        .hero-title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 900;
+            line-height: 1.1;
+            background: linear-gradient(135deg, var(--deep-brown), var(--slate));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-title {
+            font-size: clamp(1.8rem, 3vw, 2.5rem);
+            font-weight: 700;
+            color: var(--deep-brown);
+            border-bottom: 3px solid var(--warm-tan);
+            padding-bottom: 0.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 0;
+            box-shadow: 0 4px 20px rgba(139, 69, 19, 0.1);
+            transition: all 0.3s ease;
+            border-left: 4px solid var(--deep-brown);
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(139, 69, 19, 0.15);
+        }
+
+        .metric-card {
+            background: linear-gradient(135deg, var(--deep-brown), var(--slate));
+            color: white;
+            border-radius: 0;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .chart-container {
+            background: white;
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: 0 4px 20px rgba(139, 69, 19, 0.1);
+        }
+
+        .nav-link {
+            color: var(--slate);
+            transition: color 0.3s ease;
+            font-weight: 600;
+        }
+
+        .nav-link:hover {
+            color: var(--deep-brown);
+        }
+
+        .btn-primary {
+            background: var(--deep-brown);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background: var(--slate);
+            transform: translateY(-1px);
+        }
+
+        .filter-btn {
+            background: transparent;
+            border: 2px solid var(--warm-tan);
+            color: var(--slate);
+            padding: 0.5rem 1rem;
+            margin: 0.25rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: var(--warm-tan);
+            color: white;
+        }
+
+        .insight-box {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-left: 4px solid var(--deep-brown);
+            padding: 1.5rem;
+            margin: 1rem 0;
+        }
+
+        .insight-box h4 {
+            color: var(--deep-brown);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .chart-container {
+                padding: 1rem;
+                margin: 1rem 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="bg-white shadow-sm border-b-4 border-amber-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center py-6">
+                <div class="flex items-center">
+                    <i class="fas fa-theater-masks text-3xl text-amber-800 mr-4"></i>
+                    <div>
+                        <h1 class="serif text-2xl font-bold text-gray-800">Arte × Tecnología</h1>
+                        <p class="text-sm text-gray-600">Panorama de Festivales Internacionales</p>
+                    </div>
+                </div>
+                <nav class="hidden md:flex space-x-8">
+                    <a href="#overview" class="nav-link">Panorama</a>
+                    <a href="#festivales" class="nav-link">Festivales</a>
+                    <a href="#obras" class="nav-link">Obras</a>
+                    <a href="#tecnologias" class="nav-link">Tecnologías</a>
+                    <a href="#insights" class="nav-link">Insights</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="py-20 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto text-center">
+            <h1 class="hero-title serif mb-8">
+                Ecosistema de circulación de obras
+            </h1>
+            <p class="text-xl text-gray-700 max-w-4xl mx-auto mb-12 leading-relaxed">
+                Un panorama integral de los festivales internacionales dedicados a la investigación en narrativas,
+                tecnología, inmersión y co-creación. Explorando cómo la inteligencia artificial, la realidad virtual
+                y las nuevas formas de narrativa están redefiniendo los límites del arte contemporáneo.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <button class="btn-primary" onclick="scrollToSection('overview')">
+                    <i class="fas fa-chart-line mr-2"></i>
+                    Explorar Datos
+                </button>
+                <button class="btn-primary" onclick="scrollToSection('festivales')">
+                    <i class="fas fa-film mr-2"></i>
+                    Ver Festivales
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Metrics Overview -->
+    <section id="overview" class="py-16 px-4 sm:px-6 lg:px-8 bg-gray-50">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="section-title serif text-center mb-12">Panorama General</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
+                <div class="metric-card">
+                    <div class="text-4xl font-bold mb-2">6</div>
+                    <div class="text-lg">Festivales Analizados</div>
+                </div>
+                <div class="metric-card">
+                    <div class="text-4xl font-bold mb-2">7</div>
+                    <div class="text-lg">Obras Destacadas</div>
+                </div>
+                <div class="metric-card">
+                    <div class="text-4xl font-bold mb-2">5</div>
+                    <div class="text-lg">Tecnologías Clave</div>
+                </div>
+                <div class="metric-card">
+                    <div class="text-4xl font-bold mb-2">3</div>
+                    <div class="text-lg">Años de Evolución</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Venice Immersive Evolution -->
+    <section class="py-16 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="section-title serif">Evolución de Venice Immersive</h2>
+            <div class="chart-container">
+                <div id="venice-chart" style="height: 500px;"></div>
+            </div>
+            <div class="insight-box">
+                <h4><i class="fas fa-lightbulb mr-2"></i>Insight Clave</h4>
+                <p>La evolución de Venice Immersive muestra un crecimiento significativo del 43% en proyectos totales
+                    entre 2023 y 2024,
+                    pasando de 43 a 63 proyectos. Este crecimiento refleja la expansión de las aplicaciones de IA y la
+                    consolidación
+                    de la sección "Best of Worlds" con 20 creaciones en VRChat.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Festivales Timeline -->
+    <section id="festivales" class="py-16 px-4 sm:px-6 lg:px-8 bg-gray-50">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="section-title serif">Timeline de Festivales</h2>
+            <div class="chart-container">
+                <div id="timeline-chart" style="height: 500px;"></div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
+                <div class="card p-6">
+                    <h3 class="serif text-xl font-bold mb-4 text-amber-800">Ars Electronica</h3>
+                    <p class="text-sm text-gray-600 mb-3"><i class="fas fa-map-marker-alt mr-2"></i>Linz, Austria</p>
+                    <p class="text-sm text-gray-600 mb-3"><i class="fas fa-calendar mr-2"></i>Desde 1979</p>
+                    <p class="text-gray-700">La plataforma más significativa para arte de nuevos medios, conectando
+                        arte, tecnología y sociedad.</p>
+                </div>
+                <div class="card p-6">
+                    <h3 class="serif text-xl font-bold mb-4 text-amber-800">Transmediale</h3>
+                    <p class="text-sm text-gray-600 mb-3"><i class="fas fa-map-marker-alt mr-2"></i>Berlín, Alemania</p>
+                    <p class="text-sm text-gray-600 mb-3"><i class="fas fa-calendar mr-2"></i>Desde 1997</p>
+                    <p class="text-gray-700">Principal plataforma para diálogo crítico sobre arte y cultura digital con
+                        enfoque teórico riguroso.</p>
+                </div>
+                <div class="card p-6">
+                    <h3 class="serif text-xl font-bold mb-4 text-amber-800">A MAZE. / Berlin</h3>
+                    <p class="text-sm text-gray-600 mb-3"><i class="fas fa-map-marker-alt mr-2"></i>Berlín, Alemania</p>
+                    <p class="text-sm text-gray-600 mb-3"><i class="fas fa-calendar mr-2"></i>Desde 2012</p>
+                    <p class="text-gray-700">Festival internacional de juegos de autor que celebra los juegos como medio
+                        de expresión artística.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Temática Distribution -->
+    <section class="py-16 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="section-title serif">Distribución Temática</h2>
+            <div class="chart-container">
+                <div id="tematica-chart" style="height: 500px;"></div>
+            </div>
+            <div class="insight-box">
+                <h4><i class="fas fa-chart-pie mr-2"></i>Patrones Emergentes</h4>
+                <p>La narrativa personalizada (25%) y el arte generativo (20%) dominan el panorama, seguidos por la
+                    co-creación social (18%).
+                    Esta distribución refleja el creciente interés en experiencias individualizadas y colaborativas
+                    impulsadas por IA,
+                    donde la tecnología sirve como catalizador para nuevas formas de expresión artística.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Obras Destacadas -->
+    <section id="obras" class="py-16 px-4 sm:px-6 lg:px-8 bg-gray-50">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="section-title serif">Obras Destacadas</h2>
+            <div class="chart-container">
+                <div id="obras-chart" style="height: 500px;"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
+                <div class="card p-6">
+                    <h3 class="serif text-lg font-bold mb-3 text-amber-800">Tulpamancer (2023)</h3>
+                    <p class="text-sm text-gray-600 mb-2"><strong>Artistas:</strong> Marc Da Costa & Matthew
+                        Niederhauser</p>
+                    <p class="text-sm text-gray-600 mb-2"><strong>Festival:</strong> Venice Immersive</p>
+                    <p class="text-sm text-gray-600 mb-3"><strong>Tecnología:</strong> IA generativa, RV</p>
+                    <p class="text-gray-700 text-sm">Instalación RV que genera encuentros oníricos personalizados
+                        basados en los recuerdos del usuario, explorando la memoria como material narrativo.</p>
+                </div>
+
+                <div class="card p-6">
+                    <h3 class="serif text-lg font-bold mb-3 text-amber-800">MAGIC AI-ART: DIMENSIONS (2024)</h3>
+                    <p class="text-sm text-gray-600 mb-2"><strong>Artista:</strong> Niko Lang</p>
+                    <p class="text-sm text-gray-600 mb-2"><strong>Festival:</strong> Venice Immersive</p>
+                    <p class="text-sm text-gray-600 mb-3"><strong>Tecnología:</strong> IA generativa, VRChat</p>
+                    <p class="text-gray-700 text-sm">Galería interactiva en VRChat que fusiona arte generado por IA con
+                        shaders avanzados para crear experiencias psicodélicas dinámicas.</p>
+                </div>
+
+                <div class="card p-6">
+                    <h3 class="serif text-lg font-bold mb-3 text-amber-800">T/C LATVIJA (2023)</h3>
+                    <p class="text-sm text-gray-600 mb-2"><strong>Artista:</strong> Pabellón de Letonia</p>
+                    <p class="text-sm text-gray-600 mb-2"><strong>Festival:</strong> Bienal de Venecia</p>
+                    <p class="text-sm text-gray-600 mb-3"><strong>Tecnología:</strong> IA generativa (Midjourney)</p>
+                    <p class="text-gray-700 text-sm">Supermercado de ideas arquitectónicas generadas por IA, criticando
+                        la mercantilización del diseño en eventos culturales.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tecnologías -->
+    <section id="tecnologias" class="py-16 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="section-title serif">Tecnologías Emergentes</h2>
+            <div class="chart-container">
+                <div id="tecnologias-chart" style="height: 500px;"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
+                <div class="card p-6">
+                    <h3 class="serif text-lg font-bold mb-4 text-amber-800">
+                        <i class="fas fa-brain mr-2"></i>IA Generativa
+                    </h3>
+                    <p class="text-gray-700 mb-3">Catalizador principal para narrativas personalizadas y co-creación
+                        artística.</p>
+                    <ul class="text-sm text-gray-600 space-y-1">
+                        <li>• Narrativa personalizada</li>
+                        <li>• Arte generativo</li>
+                        <li>• Co-creación social</li>
+                        <li>• Documental inmersivo</li>
+                    </ul>
+                </div>
+
+                <div class="card p-6">
+                    <h3 class="serif text-lg font-bold mb-4 text-amber-800">
+                        <i class="fas fa-vr-cardboard mr-2"></i>Realidad Virtual
+                    </h3>
+                    <p class="text-gray-700 mb-3">Espacio de inmersión total para experiencias narrativas y artísticas.
+                    </p>
+                    <ul class="text-sm text-gray-600 space-y-1">
+                        <li>• Inmersión narrativa</li>
+                        <li>• Game art</li>
+                        <li>• Experiencias interactivas</li>
+                    </ul>
+                </div>
+
+                <div class="card p-6">
+                    <h3 class="serif text-lg font-bold mb-4 text-amber-800">
+                        <i class="fas fa-gamepad mr-2"></i>Game Art
+                    </h3>
+                    <p class="text-gray-700 mb-3">Lenguaje artístico maduro para construir cosmologías complejas.</p>
+                    <ul class="text-sm text-gray-600 space-y-1">
+                        <li>• Narrativa interactiva</li>
+                        <li>• Estética digital</li>
+                        <li>• Cosmologías complejas</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Key Insights -->
+    <section id="insights" class="py-16 px-4 sm:px-6 lg:px-8 bg-gray-50">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="section-title serif">Insights Estratégicos</h2>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div class="card p-8">
+                    <h3 class="serif text-xl font-bold mb-6 text-amber-800">
+                        <i class="fas fa-trending-up mr-3"></i>Tendencias Principales
+                    </h3>
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <i class="fas fa-robot text-amber-800 mr-3 mt-1"></i>
+                            <div>
+                                <strong>IA como Co-creadora:</strong> La inteligencia artificial evoluciona de
+                                herramienta a colaboradora creativa, generando narrativas personalizadas y experiencias
+                                únicas.
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-users text-amber-800 mr-3 mt-1"></i>
+                            <div>
+                                <strong>Experiencias Sociales:</strong> Creciente enfoque en la co-creación comunitaria
+                                y experiencias grupales inmersivas.
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-palette text-amber-800 mr-3 mt-1"></i>
+                            <div>
+                                <strong>Hibridación de Medios:</strong> Disolución de fronteras entre cine, videojuegos,
+                                arte digital y performance.
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="card p-8">
+                    <h3 class="serif text-xl font-bold mb-6 text-amber-800">
+                        <i class="fas fa-lightbulb mr-3"></i>Oportunidades de Investigación
+                    </h3>
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <i class="fas fa-microscope text-amber-800 mr-3 mt-1"></i>
+                            <div>
+                                <strong>Laboratorios de Co-creación:</strong> Desarrollo de plataformas que faciliten la
+                                colaboración entre humanos e IA en tiempo real.
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-balance-scale text-amber-800 mr-3 mt-1"></i>
+                            <div>
+                                <strong>Ética y Atribución:</strong> Marcos conceptuales para la autoría compartida y la
+                                distribución de crédito en obras co-creadas.
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-globe text-amber-800 mr-3 mt-1"></i>
+                            <div>
+                                <strong>Acceso Global:</strong> Democratización de herramientas de creación inmersiva y
+                                narrativa interactiva.
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto text-center">
+            <div class="mb-8">
+                <i class="fas fa-theater-masks text-4xl text-amber-400 mb-4"></i>
+                <h3 class="serif text-2xl font-bold mb-2">Arte × Tecnología</h3>
+                <p class="text-gray-300">Explorando la intersección entre creatividad humana e innovación digital</p>
+            </div>
+            <div class="border-t border-gray-700 pt-8">
+                <p class="text-gray-400 text-sm">
+                    Dashboard interactivo basado en análisis de festivales internacionales de arte y tecnología
+                    (2022-2024)
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="dashboard.js"></script>
+</body>
+
+</html>

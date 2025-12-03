@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,17 +10,22 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/plotly.js/3.0.3/plotly.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        * { font-family: 'Inter', sans-serif; }
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+
         .gradient-text {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
+
         .nav-link {
             position: relative;
             transition: all 0.3s ease;
         }
+
         .nav-link::after {
             content: '';
             position: absolute;
@@ -30,25 +36,31 @@
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             transition: width 0.3s ease;
         }
+
         .nav-link:hover::after {
             width: 100%;
         }
+
         .category-card {
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             cursor: pointer;
         }
+
         .category-card:hover {
             transform: translateY(-8px);
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
         }
+
         .tool-item {
             transition: all 0.3s ease;
         }
+
         .tool-item:hover {
             background-color: rgba(102, 126, 234, 0.1);
         }
     </style>
 </head>
+
 <body class="bg-gray-50 text-gray-900">
     <!-- Navigation -->
     <nav class="bg-white shadow-lg sticky top-0 z-50">
@@ -60,10 +72,14 @@
                     </div>
                 </div>
                 <div class="flex items-center space-x-8">
-                    <a href="index.html" class="nav-link text-gray-700 hover:text-gray-900 px-3 py-2 text-sm font-medium">Inicio</a>
-                    <a href="analytics.html" class="nav-link text-gray-700 hover:text-gray-900 px-3 py-2 text-sm font-medium">Analytics</a>
-                    <a href="#" class="nav-link text-gray-700 hover:text-gray-900 px-3 py-2 text-sm font-medium">Categorías</a>
-                    <a href="about.html" class="nav-link text-gray-700 hover:text-gray-900 px-3 py-2 text-sm font-medium">Acerca de</a>
+                    <a href="index.html"
+                        class="nav-link text-gray-700 hover:text-gray-900 px-3 py-2 text-sm font-medium">Inicio</a>
+                    <a href="analytics.html"
+                        class="nav-link text-gray-700 hover:text-gray-900 px-3 py-2 text-sm font-medium">Analytics</a>
+                    <a href="categories.html"
+                        class="nav-link text-gray-700 hover:text-gray-900 px-3 py-2 text-sm font-medium">Categorías</a>
+                    <a href="about.html"
+                        class="nav-link text-gray-700 hover:text-gray-900 px-3 py-2 text-sm font-medium">Acerca de</a>
                 </div>
             </div>
         </div>
@@ -80,10 +96,10 @@
     <!-- Categories Content -->
     <section class="py-16">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            
+
             <!-- Category Grid -->
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
-                
+
                 <!-- Educación VR -->
                 <div class="category-card bg-white rounded-lg shadow-lg overflow-hidden">
                     <div class="h-32 bg-gradient-to-br from-blue-400 to-purple-600 flex items-center justify-center">
@@ -91,25 +107,30 @@
                     </div>
                     <div class="p-6">
                         <h3 class="text-2xl font-bold mb-4 gradient-text">Educación en Realidad Virtual</h3>
-                        <p class="text-gray-600 mb-6">Herramientas que utilizan VR para crear experiencias educativas inmersivas y colaborativas.</p>
-                        
+                        <p class="text-gray-600 mb-6">Herramientas que utilizan VR para crear experiencias educativas
+                            inmersivas y colaborativas.</p>
+
                         <div class="space-y-3">
                             <div class="tool-item p-3 rounded-lg border">
                                 <div class="flex justify-between items-center">
                                     <div>
                                         <h4 class="font-semibold">Cellverse</h4>
-                                        <p class="text-sm text-gray-600">MIT Game Lab - Juego educativo colaborativo en VR</p>
+                                        <p class="text-sm text-gray-600">MIT Game Lab - Juego educativo colaborativo en
+                                            VR</p>
                                     </div>
-                                    <a href="https://game.mit.edu" target="_blank" class="text-purple-600 hover:text-purple-800">→</a>
+                                    <a href="https://gamelab.mit.edu/games/#cellverse" target="_blank"
+                                        class="text-purple-600 hover:text-purple-800">→</a>
                                 </div>
                             </div>
                             <div class="tool-item p-3 rounded-lg border">
                                 <div class="flex justify-between items-center">
                                     <div>
                                         <h4 class="font-semibold">SceneVR</h4>
-                                        <p class="text-sm text-gray-600">Knight Lab - Historias en VR fáciles de crear</p>
+                                        <p class="text-sm text-gray-600">Knight Lab - Historias en VR fáciles de crear
+                                        </p>
                                     </div>
-                                    <a href="https://knightlab.northwestern.edu" target="_blank" class="text-purple-600 hover:text-purple-800">→</a>
+                                    <a href="https://scene.knightlab.com/?_gl=1*f7er7h*_ga*NTAzMzY5NjMxLjE3NjQ2OTA3NjY.*_ga_8F4WPDMPL5*czE3NjQ2OTA3NjYkbzEkZzEkdDE3NjQ2OTE4MjMkajQ1JGwwJGgw"
+                                        target="_blank" class="text-purple-600 hover:text-purple-800">→</a>
                                 </div>
                             </div>
                             <div class="tool-item p-3 rounded-lg border">
@@ -118,7 +139,129 @@
                                         <h4 class="font-semibold">Chunity</h4>
                                         <p class="text-sm text-gray-600">Stanford VR - Integración musical en Unity</p>
                                     </div>
-                                    <a href="https://ccrma.stanford.edu" target="_blank" class="text-purple-600 hover:text-purple-800">→</a>
+                                    <a href="https://chuck.stanford.edu/chunity/" target="_blank"
+                                        class="text-purple-600 hover:text-purple-800">→</a>
+                                </div>
+                            </div>
+                            <div class="tool-item p-3 rounded-lg border">
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <h4 class="font-semibold">Current</h4>
+                                        <p class="text-sm text-gray-600">Proyecto VR - Especulación sobre cine
+                                            volumétrico</p>
+                                    </div>
+                                    <a href="http://current.cam" target="_blank"
+                                        class="text-purple-600 hover:text-purple-800">→</a>
+                                </div>
+                            </div>
+                            <div class="tool-item p-3 rounded-lg border">
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <h4 class="font-semibold">Ahorse</h4>
+                                        <p class="text-sm text-gray-600">WeMakeVR - Instalación VR sobre imaginación
+                                            humana</p>
+                                    </div>
+                                    <a href="https://wemakevr.com/ahorse/" target="_blank"
+                                        class="text-purple-600 hover:text-purple-800">→</a>
+                                </div>
+                            </div>
+                            <div class="tool-item p-3 rounded-lg border">
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <h4 class="font-semibold">Drop in the Ocean</h4>
+                                        <p class="text-sm text-gray-600">Vision3 - VR social sobre conservación oceánica
+                                        </p>
+                                    </div>
+                                    <a href="http://vision3.tv" target="_blank"
+                                        class="text-purple-600 hover:text-purple-800">→</a>
+                                </div>
+                            </div>
+                            <div class="tool-item p-3 rounded-lg border">
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <h4 class="font-semibold">Zero Days VR</h4>
+                                        <p class="text-sm text-gray-600">Scatter - Documental VR sobre ciberguerra</p>
+                                    </div>
+                                    <a href="https://www.zerodaysvr.com/" target="_blank"
+                                        class="text-purple-600 hover:text-purple-800">→</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Juegos Educativos -->
+                <div class="category-card bg-white rounded-lg shadow-lg overflow-hidden">
+                    <div class="h-32 bg-gradient-to-br from-amber-400 to-orange-600 flex items-center justify-center">
+                        <div class="text-white text-4xl">🎯</div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-2xl font-bold mb-4 gradient-text">Juegos Educativos y Evaluación</h3>
+                        <p class="text-gray-600 mb-6">Juegos diseñados para educación, evaluación de habilidades y
+                            aprendizaje interactivo.</p>
+
+                        <div class="space-y-3">
+                            <div class="tool-item p-3 rounded-lg border">
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <h4 class="font-semibold">Promesa</h4>
+                                        <p class="text-sm text-gray-600">MIT Game Lab - Juego contra-colonialista</p>
+                                    </div>
+                                    <a href="https://gamelab.mit.edu/games/" target="_blank"
+                                        class="text-purple-600 hover:text-purple-800">→</a>
+                                </div>
+                            </div>
+                            <div class="tool-item p-3 rounded-lg border">
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <h4 class="font-semibold">Aquapressure</h4>
+                                        <p class="text-sm text-gray-600">MIT Game Lab - Evaluación de funciones
+                                            ejecutivas</p>
+                                    </div>
+                                    <a href="https://gamelab.mit.edu/games/" target="_blank"
+                                        class="text-purple-600 hover:text-purple-800">→</a>
+                                </div>
+                            </div>
+                            <div class="tool-item p-3 rounded-lg border">
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <h4 class="font-semibold">Shadowspect</h4>
+                                        <p class="text-sm text-gray-600">MIT Game Lab - Geometría y razonamiento
+                                            espacial</p>
+                                    </div>
+                                    <a href="https://gamelab.mit.edu/games/" target="_blank"
+                                        class="text-purple-600 hover:text-purple-800">→</a>
+                                </div>
+                            </div>
+                            <div class="tool-item p-3 rounded-lg border">
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <h4 class="font-semibold">Livable Cities</h4>
+                                        <p class="text-sm text-gray-600">MIT Game Lab - Desarrollo urbano responsable
+                                        </p>
+                                    </div>
+                                    <a href="https://gamelab.mit.edu/games/" target="_blank"
+                                        class="text-purple-600 hover:text-purple-800">→</a>
+                                </div>
+                            </div>
+                            <div class="tool-item p-3 rounded-lg border">
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <h4 class="font-semibold">A Slower Speed of Light</h4>
+                                        <p class="text-sm text-gray-600">MIT Game Lab - Física de la relatividad</p>
+                                    </div>
+                                    <a href="https://gamelab.mit.edu/games/" target="_blank"
+                                        class="text-purple-600 hover:text-purple-800">→</a>
+                                </div>
+                            </div>
+                            <div class="tool-item p-3 rounded-lg border">
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <h4 class="font-semibold">Never Alone</h4>
+                                        <p class="text-sm text-gray-600">E-Line Media - Aventura cultural Iñupiat</p>
+                                    </div>
+                                    <a href="https://www.neveralonegame.com/" target="_blank"
+                                        class="text-purple-600 hover:text-purple-800">→</a>
                                 </div>
                             </div>
                         </div>
@@ -132,8 +275,9 @@
                     </div>
                     <div class="p-6">
                         <h3 class="text-2xl font-bold mb-4 gradient-text">Inteligencia Artificial Musical</h3>
-                        <p class="text-gray-600 mb-6">Sistemas de IA diseñados para la creación y improvisación musical colaborativa.</p>
-                        
+                        <p class="text-gray-600 mb-6">Sistemas de IA diseñados para la creación y improvisación musical
+                            colaborativa.</p>
+
                         <div class="space-y-3">
                             <div class="tool-item p-3 rounded-lg border">
                                 <div class="flex justify-between items-center">
@@ -141,16 +285,29 @@
                                         <h4 class="font-semibold">Somax2</h4>
                                         <p class="text-sm text-gray-600">IRCAM - IA interactiva para improvisación</p>
                                     </div>
-                                    <a href="https://www.ircam.fr" target="_blank" class="text-purple-600 hover:text-purple-800">→</a>
+                                    <a href="https://www.stms-lab.fr/projects/pages/somax2/" target="_blank"
+                                        class="text-purple-600 hover:text-purple-800">→</a>
                                 </div>
                             </div>
                             <div class="tool-item p-3 rounded-lg border">
                                 <div class="flex justify-between items-center">
                                     <div>
-                                        <h4 class="font-semibold">Ricercar</h4>
-                                        <p class="text-sm text-gray-600">Ars Electronica - Composición musical colaborativa</p>
+                                        <h4 class="font-semibold">AI Music Detector</h4>
+                                        <p class="text-sm text-gray-600">IRCAM Amplify - Detección de música generada
+                                            por IA</p>
                                     </div>
-                                    <a href="https://www.aec.at" target="_blank" class="text-purple-600 hover:text-purple-800">→</a>
+                                    <a href="https://www.ircamamplify.com/products/ai-music-detector" target="_blank"
+                                        class="text-purple-600 hover:text-purple-800">→</a>
+                                </div>
+                            </div>
+                            <div class="tool-item p-3 rounded-lg border">
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <h4 class="font-semibold">Stereo-to-Spatial</h4>
+                                        <p class="text-sm text-gray-600">IRCAM Amplify - Audio espacial 3D inmersivo</p>
+                                    </div>
+                                    <a href="https://www.ircamamplify.com/products/stereo-to-spatial" target="_blank"
+                                        class="text-purple-600 hover:text-purple-800">→</a>
                                 </div>
                             </div>
                         </div>
@@ -164,16 +321,51 @@
                     </div>
                     <div class="p-6">
                         <h3 class="text-2xl font-bold mb-4 gradient-text">Narrativa Inteligente</h3>
-                        <p class="text-gray-600 mb-6">Motores de razonamiento para construir historias y gestionar múltiples agentes narrativos.</p>
-                        
+                        <p class="text-gray-600 mb-6">Motores de razonamiento para construir historias y gestionar
+                            múltiples agentes narrativos.</p>
+
                         <div class="space-y-3">
                             <div class="tool-item p-3 rounded-lg border">
                                 <div class="flex justify-between items-center">
                                     <div>
-                                        <h4 class="font-semibold">Glaive y Sabre</h4>
-                                        <p class="text-sm text-gray-600">Univ. Kentucky - Planificadores narrativos</p>
+                                        <h4 class="font-semibold">Glaive</h4>
+                                        <p class="text-sm text-gray-600">Univ. Kentucky - Planificador narrativo
+                                            interactivo</p>
                                     </div>
-                                    <a href="https://narrative.cs.uky.edu" target="_blank" class="text-purple-600 hover:text-purple-800">→</a>
+                                    <a href="https://www.cs.uky.edu/~sgware/projects/glaive/" target="_blank"
+                                        class="text-purple-600 hover:text-purple-800">→</a>
+                                </div>
+                            </div>
+                            <div class="tool-item p-3 rounded-lg border">
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <h4 class="font-semibold">Sabre</h4>
+                                        <p class="text-sm text-gray-600">Univ. Kentucky - Gestión de agentes narrativos
+                                        </p>
+                                    </div>
+                                    <a href="https://www.cs.uky.edu/~sgware/projects/sabre/" target="_blank"
+                                        class="text-purple-600 hover:text-purple-800">→</a>
+                                </div>
+                            </div>
+                            <div class="tool-item p-3 rounded-lg border">
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <h4 class="font-semibold">La Ciudad como Texto</h4>
+                                        <p class="text-sm text-gray-600">Chile - Documentación interactiva protestas
+                                            2019</p>
+                                    </div>
+                                    <a href="https://laciudadcomotexto.cl" target="_blank"
+                                        class="text-purple-600 hover:text-purple-800">→</a>
+                                </div>
+                            </div>
+                            <div class="tool-item p-3 rounded-lg border">
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <h4 class="font-semibold">Immersive Journalism</h4>
+                                        <p class="text-sm text-gray-600">Periodismo inmersivo y narrativas VR</p>
+                                    </div>
+                                    <a href="https://immersivejournalism.com/" target="_blank"
+                                        class="text-purple-600 hover:text-purple-800">→</a>
                                 </div>
                             </div>
                         </div>
@@ -187,25 +379,102 @@
                     </div>
                     <div class="p-6">
                         <h3 class="text-2xl font-bold mb-4 gradient-text">Visualización de Datos</h3>
-                        <p class="text-gray-600 mb-6">Herramientas ligeras y adaptables para crear timelines y mapas interactivos.</p>
-                        
+                        <p class="text-gray-600 mb-6">Herramientas ligeras y adaptables para crear timelines y mapas
+                            interactivos.</p>
+
                         <div class="space-y-3">
                             <div class="tool-item p-3 rounded-lg border">
                                 <div class="flex justify-between items-center">
                                     <div>
                                         <h4 class="font-semibold">TimelineJS</h4>
-                                        <p class="text-sm text-gray-600">Knight Lab - Timelines interactivas</p>
+                                        <p class="text-sm text-gray-600">Knight Lab - Líneas de tiempo interactivas</p>
                                     </div>
-                                    <a href="https://knightlab.northwestern.edu" target="_blank" class="text-purple-600 hover:text-purple-800">→</a>
+                                    <a href="https://timeline.knightlab.com/" target="_blank"
+                                        class="text-purple-600 hover:text-purple-800">→</a>
                                 </div>
                             </div>
                             <div class="tool-item p-3 rounded-lg border">
                                 <div class="flex justify-between items-center">
                                     <div>
                                         <h4 class="font-semibold">StoryMapJS</h4>
-                                        <p class="text-sm text-gray-600">Knight Lab - Mapas narrativos</p>
+                                        <p class="text-sm text-gray-600">Knight Lab - Mapas narrativos geográficos</p>
                                     </div>
-                                    <a href="https://knightlab.northwestern.edu" target="_blank" class="text-purple-600 hover:text-purple-800">→</a>
+                                    <a href="https://storymap.knightlab.com/" target="_blank"
+                                        class="text-purple-600 hover:text-purple-800">→</a>
+                                </div>
+                            </div>
+                            <div class="tool-item p-3 rounded-lg border">
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <h4 class="font-semibold">Juxtapose</h4>
+                                        <p class="text-sm text-gray-600">Knight Lab - Comparación de imágenes</p>
+                                    </div>
+                                    <a href="https://juxtapose.knightlab.com/" target="_blank"
+                                        class="text-purple-600 hover:text-purple-800">→</a>
+                                </div>
+                            </div>
+                            <div class="tool-item p-3 rounded-lg border">
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <h4 class="font-semibold">SoundCite</h4>
+                                        <p class="text-sm text-gray-600">Knight Lab - Audio integrado en texto</p>
+                                    </div>
+                                    <a href="https://soundcite.knightlab.com/" target="_blank"
+                                        class="text-purple-600 hover:text-purple-800">→</a>
+                                </div>
+                            </div>
+                            <div class="tool-item p-3 rounded-lg border">
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <h4 class="font-semibold">StorylineJS</h4>
+                                        <p class="text-sm text-gray-600">Knight Lab - Gráficos de líneas anotados</p>
+                                    </div>
+                                    <a href="https://storyline.knightlab.com/" target="_blank"
+                                        class="text-purple-600 hover:text-purple-800">→</a>
+                                </div>
+                            </div>
+                            <div class="tool-item p-3 rounded-lg border">
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <h4 class="font-semibold">Dérive</h4>
+                                        <p class="text-sm text-gray-600">MIT Docubase - Visualización 3D datos
+                                            ambientales</p>
+                                    </div>
+                                    <a href="https://docubase.mit.edu/project/derive/" target="_blank"
+                                        class="text-purple-600 hover:text-purple-800">→</a>
+                                </div>
+                            </div>
+                            <div class="tool-item p-3 rounded-lg border">
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <h4 class="font-semibold">Spectre</h4>
+                                        <p class="text-sm text-gray-600">Bill Posters - Instalación sobre vigilancia
+                                            datos</p>
+                                    </div>
+                                    <a href="http://billposters.ch/projects/spectre/" target="_blank"
+                                        class="text-purple-600 hover:text-purple-800">→</a>
+                                </div>
+                            </div>
+                            <div class="tool-item p-3 rounded-lg border">
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <h4 class="font-semibold">Learning to See</h4>
+                                        <p class="text-sm text-gray-600">Memo Akten - Arte generativo con redes
+                                            neuronales</p>
+                                    </div>
+                                    <a href="http://www.memo.tv/works/learning-to-see/" target="_blank"
+                                        class="text-purple-600 hover:text-purple-800">→</a>
+                                </div>
+                            </div>
+                            <div class="tool-item p-3 rounded-lg border">
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <h4 class="font-semibold">ROUND: Cambridge</h4>
+                                        <p class="text-sm text-gray-600">Halsey Burgund - Arte público audio AR
+                                            participativo</p>
+                                    </div>
+                                    <a href="https://halseyburgund.com/projects/rc.html" target="_blank"
+                                        class="text-purple-600 hover:text-purple-800">→</a>
                                 </div>
                             </div>
                         </div>
@@ -219,16 +488,19 @@
                     </div>
                     <div class="p-6">
                         <h3 class="text-2xl font-bold mb-4 gradient-text">Cine Interactivo</h3>
-                        <p class="text-gray-600 mb-6">Plataformas para la creación de películas interactivas y narrativas no lineales.</p>
-                        
+                        <p class="text-gray-600 mb-6">Plataformas para la creación de películas interactivas y
+                            narrativas no lineales.</p>
+
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div class="tool-item p-4 rounded-lg border">
                                 <div class="flex justify-between items-center">
                                     <div>
                                         <h4 class="font-semibold">Cutting Room OBM</h4>
-                                        <p class="text-sm text-gray-600">Digital Creativity Hub - Películas interactivas</p>
+                                        <p class="text-sm text-gray-600">Digital Creativity Hub - Películas interactivas
+                                        </p>
                                     </div>
-                                    <a href="https://www.dclabprojects.com" target="_blank" class="text-purple-600 hover:text-purple-800">→</a>
+                                    <a href="https://dl.acm.org/doi/abs/10.1145/3391614.3393654" target="_blank"
+                                        class="text-purple-600 hover:text-purple-800">→</a>
                                 </div>
                             </div>
                         </div>
@@ -287,7 +559,7 @@
             legend: { x: 0.02, y: 0.98 }
         };
 
-        Plotly.newPlot('comparison-chart', comparisonData, comparisonLayout, {responsive: true});
+        Plotly.newPlot('comparison-chart', comparisonData, comparisonLayout, { responsive: true });
 
         // Page animations
         anime({
@@ -321,4 +593,5 @@
         });
     </script>
 </body>
+
 </html>
